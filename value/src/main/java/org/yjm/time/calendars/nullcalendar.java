@@ -4,9 +4,9 @@ import org.yjm.time.Calendar;
 import org.yjm.time.Date;
 import org.yjm.time.Weekday;
 
-public class NullCalendar extends Calendar {
+public class nullcalendar extends Calendar {
 
-    public NullCalendar() {
+    public nullcalendar() {
         impl = new Impl();
     }
 

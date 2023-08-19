@@ -1,7 +1,7 @@
 package org.yjm.time;
 import org.yjm.QL;
 import org.yjm.time.calendars.china;
-import org.yjm.time.calendars.NullCalendar;
+import org.yjm.time.calendars.nullcalendar;
 import org.yjm.lang.LibraryException;
 
 import java.util.ArrayList;
@@ -172,7 +172,7 @@ public class Schedule {
                 }
             }
 
-            final Calendar nullCalendar = new NullCalendar();
+            final Calendar nullCalendar = new nullcalendar();
 
             int periods = 1;
 
