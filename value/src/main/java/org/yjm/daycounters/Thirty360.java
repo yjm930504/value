@@ -2,14 +2,14 @@ package org.yjm.daycounters;
 
 import org.yjm.time.Date;
 
-public class Thirty360 extends DayCounter {
+public class Thirty360 extends daycounter {
 
     public Thirty360() {
         super.daycountImplement = new daycountImplement();
     }
 
 
-    private final class daycountImplement extends DayCounter.daycountImplement {
+    private final class daycountImplement extends daycounter.daycountImplement {
         @Override
         protected String name() {
             return "30/360";

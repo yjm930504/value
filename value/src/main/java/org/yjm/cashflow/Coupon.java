@@ -1,6 +1,6 @@
 package org.yjm.cashflow;
 
-import org.yjm.daycounters.DayCounter;
+import org.yjm.daycounters.daycounter;
 import org.yjm.time.Date;
 public abstract class Coupon extends Cashflow {
 
@@ -44,7 +44,7 @@ public abstract class Coupon extends Cashflow {
 
     public abstract double rate();
 
-    public abstract DayCounter dayCounter();
+    public abstract daycounter dayCounter();
 
     public abstract double accruedAmount(final Date date);
 
