@@ -2,7 +2,7 @@ package org.yjm;
 
 
 import org.yjm.time.*;
-import org.yjm.time.calendars.China;
+import org.yjm.time.calendars.china;
 
 
 public class Main {
@@ -16,7 +16,7 @@ public class Main {
         Date to = new Date(17,6,2023);
         Date mid = new Date(17,6,2023);
 
-        Schedule s = new Schedule(from, to ,new Period(2, TimeUnit.Days),new China(), BusinessDayConvention.Following,BusinessDayConvention.Following, DateGeneration.Rule.Forward,false);
+        Schedule s = new Schedule(from, to ,new Period(2, TimeUnit.Days),new china(), BusinessDayConvention.Following,BusinessDayConvention.Following, DateGeneration.Rule.Forward,false);
 //        System.out.println(wd);
         Date d1 = s.previousDate(mid);
         int i1 = s.size();

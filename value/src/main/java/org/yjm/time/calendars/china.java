@@ -8,11 +8,11 @@ import org.yjm.time.Weekday;
 import static org.yjm.time.Weekday.Saturday;
 import static org.yjm.time.Weekday.Sunday;
 
-public class China extends Calendar {
+public class china extends Calendar {
 
     public static enum Market {SSE}
 
-    public China() {
+    public china() {
         this(Market.SSE);
     }
 
@@ -20,7 +20,7 @@ public class China extends Calendar {
      * @Author  Jiaming Yan
      * @Description 构造函数，SseImpl对象
      */
-    public China(final Market m) {
+    public china(final Market m) {
         switch (m) {
             case SSE:
                 impl = new SseImpl();

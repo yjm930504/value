@@ -1,6 +1,6 @@
 package org.yjm.time;
 import org.yjm.QL;
-import org.yjm.time.calendars.China;
+import org.yjm.time.calendars.china;
 import org.yjm.time.calendars.NullCalendar;
 import org.yjm.lang.LibraryException;
 
@@ -35,7 +35,7 @@ public class Schedule {
      * @description: 构造函数，默认无工作日调整和中国日历
      */
     public Schedule(final List<Date> dates) {
-        this(dates, new China(), BusinessDayConvention.Unadjusted);
+        this(dates, new china(), BusinessDayConvention.Unadjusted);
     }
 
     /**
