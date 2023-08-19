@@ -1,0 +1,49 @@
+package org.yjm.cashflow;
+
+import org.yjm.time.Date;
+
+/**
+ * @Author  Jiaming Yan
+ * @Description 现金流抽象类
+ */
+
+public abstract class Cashflow implements Comparable<Cashflow>{
+
+    /**
+     * @Author  Jiaming Yan
+     * @Description 抽象方法，返回现金流大小
+     */
+    public abstract double amount();
+
+    /**
+     * @Author  Jiaming Yan
+     * @Description 抽象方法，返回现金流的日期
+     */
+    public abstract Date date();
+
+
+    /**
+     * @Author  Jiaming Yan
+     * @Description 比较现金流
+     */
+    public int compareTo(final Cashflow c2) {
+        //先比较日期，日期在前返回-1
+        if (date().lt(c2.date())) {
+            return -1;
+        }
+        //日期相同，比较金额，小于返回-1，大于返回0
+        if (date().equals(c2.date())) {
+            try {
+                if (amount() < c2.amount()) {
+                    return -1;
+                }
+            } catch (final Exception e) {
+                return -1;
+            }
+            return 0;
+        }
+
+        return 1;
+    }
+
+}
