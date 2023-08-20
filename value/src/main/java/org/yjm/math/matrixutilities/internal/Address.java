@@ -13,7 +13,7 @@ public interface Address {
 
     public static final String INVALID_BACKWARD_INDEXING = "invalid backward indexing";
     public static final String INVALID_ROW_INDEX = "invalid row index";
-    public static final String INVALID_COLUMN_INDEX = "invalid column index";
+    public static final String INVALID_COLUMN_INDEX = "无效列索引";
     public static final String GAP_INDEX_FOUND = "gap index found";
 
     /**

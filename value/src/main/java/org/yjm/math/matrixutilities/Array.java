@@ -2,6 +2,7 @@ package org.yjm.math.matrixutilities;
 
 import org.yjm.QL;
 import org.yjm.math.Ops;
+import org.yjm.math.functions.LessThanPredicate;
 import org.yjm.math.matrixutilities.internal.Address;
 import org.yjm.math.matrixutilities.internal.DirectArrayRowAddress;
 
@@ -692,7 +693,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
     public Matrix outerProduct(final Array another, final int from, final int to) {
         final int offset = another.addr.isFortran() ? 1 : 0;
         QL.require(from >= offset && to >= from && to <= another.size()+offset, INVALID_ARGUMENTS);
-        final Matrix result = new Matrix(this.size(), to-from);
+        final Matrix result = new Matrix(this.size(), to - from);
         final Address.ArrayAddress.ArrayOffset toff = this.addr.offset();
         int addr = 0;
         for (int i=0; i<this.size(); i++) {
@@ -707,19 +708,31 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
         return result;
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 累加
+     */
     @Override
     public double accumulate() {
         return accumulate(0, this.size(), 0.0);
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 累加
+     */
     @Override
     public double accumulate(final double init) {
         return accumulate(0, this.size(), init);
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 累加
+     */
     @Override
     public double accumulate(final int first, final int last, final double init) {
-        QL.require(first>=0 && last>first && last<=size(),  INVALID_ARGUMENTS); // QA:[RG]::verified
+        QL.require(first>=0 && last>first && last<=size(),  INVALID_ARGUMENTS);
         double sum = init;
         final Address.ArrayAddress.ArrayOffset src = this.addr.offset(first);
         for (int i=0; i<last-first; i++) {
@@ -730,67 +743,88 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
         return sum;
     }
 
-
+    /**
+     * @Author  Jiaming Yan
+     * @Description 相邻差值
+     */
     @Override
     public final Array adjacentDifference() {
         final int offset = addr.isFortran() ? 1 : 0;
-        return adjacentDifference(offset, size()+offset);
+        return adjacentDifference(offset, size() + offset);
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 相邻差值
+     */
     @Override
     public final Array adjacentDifference(final int from, final int to) {
         final int offset = addr.isFortran() ? 1 : 0;
-        QL.require(from >= offset && to >= from && to <= this.size()+offset, INVALID_ARGUMENTS); // QA:[RG]::verified
+        QL.require(from >= offset && to >= from && to <= this.size()+offset, INVALID_ARGUMENTS);
         final Address.ArrayAddress.ArrayOffset toff = this.addr.offset(from);
         final Array diff = new Array(to-from, this.flags());
-        // obtain first element and advance pointer
-        double prev = this.$[toff.op()]; toff.nextIndex();
-        // fill in first difference
+        double prev = this.$[toff.op()];
+        toff.nextIndex();
         diff.$[diff.index(offset)] = prev;
-        // fill in remaining differences
         for (int i=1+offset; i<to-from+offset; i++) {
-            final double curr = this.$[toff.op()]; toff.nextIndex();
+            final double curr = this.$[toff.op()];
+            toff.nextIndex();
             diff.$[diff.index(i)] = curr - prev;
             prev = curr;
         }
         return diff;
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 相邻差值
+     */
     @Override
     public Array adjacentDifference(final Ops.BinaryDoubleOp f) {
         final int offset = addr.isFortran() ? 1 : 0;
         return adjacentDifference(offset, size()+offset, f);
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 相邻差值
+     */
     @Override
     public Array adjacentDifference(final int from, final int to, final Ops.BinaryDoubleOp f) {
         final int offset = addr.isFortran() ? 1 : 0;
-        QL.require(from >= offset && to >= from && to <= this.size()+offset, INVALID_ARGUMENTS); // QA:[RG]::verified
+        QL.require(from >= offset && to >= from && to <= this.size()+offset, INVALID_ARGUMENTS);
         final Address.ArrayAddress.ArrayOffset toff = this.addr.offset(from);
         final Array diff = new Array(to-from, this.flags());
-        // obtain first element and advance pointer
-        double prev = this.$[toff.op()]; toff.nextIndex();
-        // fill in first difference
+        double prev = this.$[toff.op()];
+        toff.nextIndex();
         diff.$[diff.index(offset)] = prev;
-        // fill in remaining differences
         for (int i=1+offset; i<to-from+offset; i++) {
-            final double curr = this.$[toff.op()]; toff.nextIndex();
+            final double curr = this.$[toff.op()];
+            toff.nextIndex();
             diff.$[diff.index(i)] = f.op(curr, prev);
             prev = curr;
         }
         return diff;
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 转置
+     */
     @Override
     public Array transform(final Ops.DoubleOp f) {
         final int offset = addr.isFortran() ? 1 : 0;
         return transform(offset, this.size()+offset, f);
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 转置
+     */
     @Override
     public Array transform(final int from, final int to, final Ops.DoubleOp f) {
         final int offset = addr.isFortran() ? 1 : 0;
-        QL.require(from >= offset && to >= from && to <= this.size()+offset && f!=null, INVALID_ARGUMENTS); // QA:[RG]::verified
+        QL.require(from >= offset && to >= from && to <= this.size()+offset && f!=null, INVALID_ARGUMENTS);
         for (int i=from; i<to; i++) {
             final int idx = this.index(i);
             this.$[idx] = f.op(this.$[idx]);
@@ -798,27 +832,43 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
         return this;
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 下届
+     */
     @Override
     public int lowerBound(final double val) {
         final int offset = addr.isFortran() ? 1 : 0;
         return lowerBound(offset, size()+offset, val, new LessThanPredicate());
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 下届
+     */
     @Override
     public int lowerBound(final int from, final int to, final double val) {
         return lowerBound(from, to, val, new LessThanPredicate());
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 下届
+     */
     @Override
     public int lowerBound(final double val, final Ops.BinaryDoublePredicate f) {
         final int offset = addr.isFortran() ? 1 : 0;
         return lowerBound(offset, size()+offset, val, f);
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 下届
+     */
     @Override
     public int lowerBound(int from, final int to, final double val, final Ops.BinaryDoublePredicate f) {
         final int offset = addr.isFortran() ? 1 : 0;
-        QL.require(from>=offset && from<=to && to<=size()+offset, INVALID_ARGUMENTS); // QA:[RG]::verified
+        QL.require(from>=offset && from<=to && to<=size()+offset, INVALID_ARGUMENTS);
         int len = to - from;
         while (len > 0) {
             final int half = len >> 1;
@@ -833,27 +883,43 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
         return from;
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 上届
+     */
     @Override
     public int upperBound(final double val) {
         final int offset = addr.isFortran() ? 1 : 0;
         return upperBound(offset, size()+offset, val);
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 上届
+     */
     @Override
     public int upperBound(final int from, final int to, final double val) {
         return upperBound(from, to, val, new LessThanPredicate());
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 上届
+     */
     @Override
     public int upperBound(final double val, final Ops.BinaryDoublePredicate f) {
         final int offset = addr.isFortran() ? 1 : 0;
         return upperBound(offset, size()+offset, val, f);
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 上届
+     */
     @Override
     public int upperBound(int from, final int to, final double val, final Ops.BinaryDoublePredicate f) {
         final int offset = addr.isFortran() ? 1 : 0;
-        QL.require(from>=offset && from<=to && to<=size()+offset, INVALID_ARGUMENTS); // QA:[RG]::verified
+        QL.require(from>=offset && from<=to && to<=size()+offset, INVALID_ARGUMENTS);
         int len = to - from;
         while (len > 0) {
             final int half = len >> 1;
@@ -868,28 +934,48 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
         return from;
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 范围
+     */
     public Array range(final int col0) {
         return range(col0, cols());
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 范围
+     */
     public Array range(final int col0, final int col1) {
         final int offset = addr.isFortran() ? 1 : 0;
         QL.require(col0 >= offset && col0 < cols()+offset && col1 >= offset && col1 <= cols()+offset, Address.INVALID_COLUMN_INDEX);
         return new Range(offset, this.addr, $, col0, col1, rows(), cols());
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 转换为Fortran
+     */
     public Array toFortran() {
         return this.addr.isFortran()
                 ?  this
                 : new Array(this.rows, this.cols, this.$, this.addr.toFortran());
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 转换为Java
+     */
     public Array toJava() {
         return this.addr.isFortran()
                 ?  new Array(this.rows, this.cols, this.$, this.addr.toJava())
                 : this;
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description
+     */
     public Array fill(final double scalar) {
         QL.require(addr.isContiguous(), NON_CONTIGUOUS_DATA);
         final int offset = addr.isFortran() ? 1 : 0;
@@ -897,22 +983,28 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
         return this;
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description
+     */
     public Array fill(final Array another) {
         QL.require(addr.isContiguous(), NON_CONTIGUOUS_DATA);
         QL.require(another.addr.isContiguous(), NON_CONTIGUOUS_DATA);
         QL.require(this.rows()==another.rows() && this.cols()==another.cols() && this.size()==another.size(), WRONG_BUFFER_LENGTH);
-        // copies data
         final int offsetT = this.addr.isFortran() ? 1 : 0;
         final int offsetA = another.addr.isFortran() ? 1 : 0;
         System.arraycopy(another.$, another.begin()-offsetA, this.$, this.begin()-offsetT, another.size());
         return this;
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 交换
+     */
     public Array swap(final Array another) {
         QL.require(addr.isContiguous(), NON_CONTIGUOUS_DATA);
         QL.require(another.addr.isContiguous(), NON_CONTIGUOUS_DATA);
         QL.require(this.rows()==another.rows() && this.cols()==another.cols() && this.size()==another.size(), WRONG_BUFFER_LENGTH);
-        // swaps data
         final double [] tdata;
         final Address.ArrayAddress taddr;
         tdata = this.$;  this.$ = another.$;  another.$ = tdata;
@@ -920,13 +1012,21 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
         return this;
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 排序
+     */
     public Array sort() {
         QL.require(addr.isContiguous(), NON_CONTIGUOUS_DATA);
         final int offset = addr.isFortran() ? 1 : 0;
-        Arrays.sort($, begin()-offset, end()-offset);
+        Arrays.sort($, begin() - offset, end() - offset);
         return this;
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 转换为字符
+     */
     @Override
     public String toString() {
         final int offset = addr.isFortran() ? 1 : 0;
@@ -943,11 +1043,19 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
         return sb.toString();
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 迭代器
+     */
     @Override
     public Iterator<Double> iterator() {
         return this.addr.offset();
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description
+     */
     private class Range extends Array {
 
         public Range(
@@ -958,7 +1066,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
                 final int col1,
                 final int rows, final int cols) {
             super(1,
-                    col1-col0,
+                    col1 - col0,
                     data,
                     new DirectArrayRowAddress(data, row0, chain, col0, col1, null, true, rows, cols));
         }

@@ -1,6 +1,6 @@
 package org.yjm.math.matrixutilities;
 
-import org.yjm.QL;
+
 import org.yjm.math.matrixutilities.internal.Address;
 import org.yjm.lang.LibraryException;
 import java.util.Set;
@@ -12,7 +12,7 @@ import java.util.Set;
 public abstract class Cells<T extends Address> implements Cloneable  {
     private final static String FORTRAN_ADDRESSING_EXPECTED = "variable \"%s\" should be FORTRAN-style addressing";
     protected final static String INVALID_ARGUMENTS = "无效参数";
-    protected final static String WRONG_BUFFER_LENGTH = "wrong buffer length";
+    protected final static String WRONG_BUFFER_LENGTH = "缓冲区长度错误";
     protected final static String MATRIX_IS_INCOMPATIBLE = "不兼容的矩阵";
     protected final static String ARRAY_IS_INCOMPATIBLE = "不兼容的数组";
     protected final static String ITERATOR_IS_INCOMPATIBLE = "iterator is incompatible";
@@ -20,7 +20,7 @@ public abstract class Cells<T extends Address> implements Cloneable  {
     protected final static String MATRIX_MUST_BE_SQUARE = "matrix must be square";
     protected final static String MATRIX_MUST_BE_SYMMETRIC = "matrix must be symmetric";
     protected final static String MATRIX_IS_SINGULAR = "matrix is singular";
-    protected final static String NON_CONTIGUOUS_DATA = "Operation not supported on non-contiguous data";
+    protected final static String NON_CONTIGUOUS_DATA = "不支持非连续数据";
 
     protected final int rows;
     protected final int cols;
