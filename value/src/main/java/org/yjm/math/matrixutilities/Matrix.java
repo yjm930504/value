@@ -408,15 +408,15 @@ public class Matrix extends Cells<Address.MatrixAddress> implements Cloneable {
      * @Author  Jiaming Yan
      * @Description QR分解
      */
-    public QRDecomposition qr() {return new QRDecomposition(this);}
+//    public QRDecomposition qr() {return new QRDecomposition(this);}
 
     /**
      * @Author  Jiaming Yan
      * @Description QR分解
      */
-    public QRDecomposition qr(final boolean pivot) {
-        return new QRDecomposition(this, pivot);
-    }
+//    public QRDecomposition qr(final boolean pivot) {
+//        return new QRDecomposition(this, pivot);
+//    }
 
     /**
      * @Author  Jiaming Yan
