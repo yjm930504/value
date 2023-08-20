@@ -3,12 +3,13 @@ package org.yjm.math.matrixutilities.internal;
 import java.util.ListIterator;
 import java.util.Set;
 
-public interface Address {
 
-    /**
-     * @Author  Jiaming Yan
-     * @Description 矩阵和数组的访问方法接口
-     */
+
+/**
+ * @Author  Jiaming Yan
+ * @Description 矩阵和数组的访问方法接口
+ */
+public interface Address {
 
     public static final String INVALID_BACKWARD_INDEXING = "invalid backward indexing";
     public static final String INVALID_ROW_INDEX = "invalid row index";
@@ -52,12 +53,25 @@ public interface Address {
      */
     public boolean isContiguous();
     public boolean isFortran();
+
+    /**
+     * @Author  Jiaming Yan
+     * @Description 一组有效标志
+     */
     public Set<Address.Flags> flags();
+
     public enum Flags {FORTRAN,}
+    /**
+     * @Author  Jiaming Yan
+     * @Description 迭代器生成接口
+     */
     public interface Offset {
         public abstract int op();
     }
-
+    /**
+     * @Author  Jiaming Yan
+     * @Description Array访问器接口
+     */
     public interface ArrayAddress extends Cloneable, Address {
 
         public ArrayAddress clone();
@@ -70,7 +84,10 @@ public interface Address {
             public void setIndex(final int index);
         }
     }
-
+    /**
+     * @Author  Jiaming Yan
+     * @Description Matrix访问器接口
+     */
     public interface MatrixAddress extends Cloneable, Address {
 
         public MatrixAddress clone();
