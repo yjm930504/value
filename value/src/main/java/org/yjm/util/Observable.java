@@ -1,4 +1,4 @@
-package util;
+package org.yjm.util;
 
 import java.util.List;
 
