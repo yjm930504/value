@@ -48,7 +48,7 @@ public interface Address {
 
     /**
      * @Author  Jiaming Yan
-     * @Description 底层内存存储是否可以连续访问
+     * @Description 是否可以连续访问
      */
     public boolean isContiguous();
     public boolean isFortran();
