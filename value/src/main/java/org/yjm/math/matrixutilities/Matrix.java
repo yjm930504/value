@@ -25,20 +25,32 @@ public class Matrix extends Cells<Address.MatrixAddress> implements Cloneable {
         super(1, 1, null);
         super.addr = new DirectMatrixAddress(this.$, 0, 1, null, 0, 1, flags, true, 1, 1);
     }
-
+    /**
+     * @Author  Jiaming Yan
+     * @Description 构造函数
+     */
     public Matrix(final int rows, final int cols) {
         this(rows, cols, EnumSet.noneOf(Address.Flags.class));
     }
-
+    /**
+     * @Author  Jiaming Yan
+     * @Description 构造函数
+     */
     public Matrix(final int rows, final int cols, final Set<Address.Flags> flags) {
         super(rows, cols, null);
         this.addr = new DirectMatrixAddress(this.$, 0, rows, null, 0, cols, flags, true, rows, cols);
     }
-
+    /**
+     * @Author  Jiaming Yan
+     * @Description 构造函数
+     */
     public Matrix(final double[][] data) {
         this(data, EnumSet.noneOf(Address.Flags.class));
     }
-
+    /**
+     * @Author  Jiaming Yan
+     * @Description 构造函数
+     */
     public Matrix(final double[][] data, final Set<Address.Flags> flags) {
         super(data.length, data[0].length, null);
         this.addr = new DirectMatrixAddress(this.$, 0, data.length, null, 0, data[0].length, flags, true, data.length, data[0].length);
@@ -46,7 +58,10 @@ public class Matrix extends Cells<Address.MatrixAddress> implements Cloneable {
             System.arraycopy(data[row], 0, this.$, row*this.cols, this.cols);
         }
     }
-
+    /**
+     * @Author  Jiaming Yan
+     * @Description 构造函数
+     */
     public Matrix(final Matrix m) {
         super(m.rows(), m.cols(), copyData(m), m.addr.clone());
     }
@@ -57,7 +72,6 @@ public class Matrix extends Cells<Address.MatrixAddress> implements Cloneable {
         if (m.addr.isContiguous()) {
             System.arraycopy(m.$, 0, data, 0, size);
         } else {
-            //FIXME: this code is probably wrong
             final MatrixOffset offset = m.addr.offset();
             final int cols = m.cols();
             for (int row = 0; row < m.rows(); row++) {
