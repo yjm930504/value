@@ -1,9 +1,17 @@
 package org.yjm.math.matrixutilities.internal;
 
+import org.yjm.lang.LibraryException;
+
 import java.util.EnumSet;
 import java.util.Set;
 
-public abstract class DirectAddress {
+
+
+/**
+ * @Author  Jiaming Yan
+ * @Description 连续区间的所有访问基类
+ */
+public abstract class DirectAddress implements Address, Cloneable{
     protected final double[] data;
     protected final int row0;
     protected final int row1;
@@ -14,9 +22,7 @@ public abstract class DirectAddress {
     protected final boolean contiguous;
     protected final int rows;
     protected final int cols;
-
     protected final int offset;
-
     private final int base;
     private final int last;
 
@@ -28,11 +34,10 @@ public abstract class DirectAddress {
             final Set<Address.Flags> flags,
             final boolean contiguous,
             final int rows, final int cols) {
-        this.data = data; // DO NOT use clone: direct reference on purpose!
+        this.data = data;
         this.chain  = chain;
         this.contiguous = contiguous;
         this.flags  = (flags != null) ? flags : (chain != null) ? chain.flags() : EnumSet.noneOf(Address.Flags.class);
-
         this.offset = isFortran() ? 1 : 0;
         this.row0 = row0 - offset + ( chain==null ? 0 : chain.row0() );
         this.col0 = col0 - offset + ( chain==null ? 0 : chain.col0() );
@@ -43,4 +48,75 @@ public abstract class DirectAddress {
         this.base = (row0-offset)*cols + (col0-offset);
         this.last = (row1-offset-1)*cols + (col1-offset-1);
     }
+
+    @Override
+    public boolean isContiguous() {
+        return contiguous;
+    }
+
+    @Override
+    public boolean isFortran() {
+        return flags.contains(Address.Flags.FORTRAN);
+    }
+
+    @Override
+    public Set<Address.Flags> flags() {
+        return flags;
+    }
+
+    @Override
+    public int rows() {
+        return rows;
+    }
+
+    @Override
+    public int cols() {
+        return cols;
+    }
+
+    @Override
+    public int row0() {
+        return row0;
+    }
+
+    @Override
+    public int col0() {
+        return col0;
+    }
+
+    @Override
+    public int base() {
+        return base;
+    }
+
+    @Override
+    public int last() {
+        return last;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer();
+        sb.append("[row0=").append(row0).append(" row1=").append(row1);
+        sb.append(" col0=").append(col0).append(" col1=").append(col1);
+        sb.append(" flags=").append(flags).append("]");
+        return sb.toString();
+    }
+
+    @Override
+    public DirectAddress clone() {
+        try {
+            return (DirectAddress) super.clone();
+        } catch (final Exception e) {
+            throw new LibraryException(e);
+        }
+    }
+
+    protected abstract class DirectAddressOffset implements Address.Offset {
+        protected int row;
+        protected int col;
+        protected DirectAddressOffset() {}
+
+    }
+
 }

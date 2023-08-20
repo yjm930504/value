@@ -17,7 +17,7 @@ public abstract class Cells<T extends Address> implements Cloneable  {
     protected final static String ARRAY_IS_INCOMPATIBLE = "不兼容的数组";
     protected final static String ITERATOR_IS_INCOMPATIBLE = "iterator is incompatible";
     protected final static String NOT_ENOUGH_STORAGE = "not enough storage area for operation";
-    protected final static String MATRIX_MUST_BE_SQUARE = "matrix must be square";
+    protected final static String MATRIX_MUST_BE_SQUARE = "矩阵需要是方矩阵";
     protected final static String MATRIX_MUST_BE_SYMMETRIC = "matrix must be symmetric";
     protected final static String MATRIX_IS_SINGULAR = "matrix is singular";
     protected final static String NON_CONTIGUOUS_DATA = "不支持非连续数据";

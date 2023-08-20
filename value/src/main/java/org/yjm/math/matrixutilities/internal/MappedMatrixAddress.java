@@ -5,21 +5,39 @@ import org.yjm.lang.LibraryException;
 import java.util.EnumSet;
 import java.util.Set;
 
-public class DirectMatrixAddress extends DirectAddress implements Address.MatrixAddress {
+public class MappedMatrixAddress extends MappedAddress implements Address.MatrixAddress{
 
-    /**
-     * @Author  Jiaming Yan
-     * @Description 构造方法
-     */
-    public DirectMatrixAddress(
+    public MappedMatrixAddress(
             final double[] data,
-            final int row0, final int row1,
-            final Address chain,
+            final int[] ridx,
+            final Address.MatrixAddress chain,
             final int col0, final int col1,
             final Set<Flags> flags,
             final boolean contiguous,
             final int rows, final int cols) {
-        super(data, row0, row1, chain, col0, col1, flags, contiguous, rows, cols);
+        super(data, ridx, chain, col0, col1, flags, contiguous, rows, cols);
+    }
+
+    public MappedMatrixAddress(
+            final double[] data,
+            final int row0, final int row1,
+            final Address.MatrixAddress chain,
+            final int[] cidx,
+            final Set<Address.Flags> flags,
+            final boolean contiguous,
+            final int rows, final int cols) {
+        super(data, row0, row1, chain, cidx, flags, contiguous, rows, cols);
+    }
+
+    public MappedMatrixAddress(
+            final double[] data,
+            final int[] ridx,
+            final Address.MatrixAddress chain,
+            final int[] cidx,
+            final Set<Address.Flags> flags,
+            final boolean contiguous,
+            final int rows, final int cols) {
+        super(data, ridx, chain, cidx, flags, contiguous, rows, cols);
     }
 
     @Override
@@ -37,31 +55,31 @@ public class DirectMatrixAddress extends DirectAddress implements Address.Matrix
 
     @Override
     public MatrixOffset offset() {
-        return new DirectMatrixAddressOffset(offset, offset);
+        return new FastMatrixIndexAddressOffset(0, 0);
     }
 
     @Override
     public MatrixOffset offset(final int row, final int col) {
-        return new DirectMatrixAddressOffset(row, col);
+        return new FastMatrixIndexAddressOffset(row, col);
     }
 
     @Override
     public int op(final int row, final int col) {
-        return (row0+row)*cols + (col0+col);
+        return (row0+ridx[row])*cols + (col0+cidx[col]);
     }
 
     @Override
-    public DirectMatrixAddress clone() {
+    public MappedMatrixAddress clone() {
         try {
-            return (DirectMatrixAddress) super.clone();
+            return (MappedMatrixAddress) super.clone();
         } catch (final Exception e) {
             throw new LibraryException(e);
         }
     }
 
-    private class DirectMatrixAddressOffset extends DirectAddressOffset implements Address.MatrixAddress.MatrixOffset {
+    private class FastMatrixIndexAddressOffset extends FastIndexAddressOffset implements Address.MatrixAddress.MatrixOffset {
 
-        public DirectMatrixAddressOffset(final int row, final int col) {
+        public FastMatrixIndexAddressOffset(final int row, final int col) {
             super.row = row0+row;
             super.col = col0+col;
         }
@@ -98,7 +116,7 @@ public class DirectMatrixAddress extends DirectAddress implements Address.Matrix
 
         @Override
         public int op() {
-            return row*cols + col;
+            return ridx[row]*cols + cidx[col];
         }
 
     }
