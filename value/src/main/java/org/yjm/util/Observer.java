@@ -1,4 +1,4 @@
-package org.util;
+package org.yjm.util;
 
 public interface Observer {
 
