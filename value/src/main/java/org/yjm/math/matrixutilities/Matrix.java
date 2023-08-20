@@ -1,10 +1,7 @@
 package org.yjm.math.matrixutilities;
 
 import org.yjm.QL;
-import org.yjm.math.matrixutilities.internal.Address;
-import org.yjm.math.matrixutilities.internal.DirectArrayColAddress;
-import org.yjm.math.matrixutilities.internal.DirectArrayRowAddress;
-import org.yjm.math.matrixutilities.internal.DirectMatrixAddress;
+import org.yjm.math.matrixutilities.internal.*;
 import org.yjm.math.matrixutilities.internal.Address.MatrixAddress;
 import org.yjm.math.matrixutilities.internal.Address.MatrixAddress.MatrixOffset;
 
@@ -433,25 +430,25 @@ public class Matrix extends Cells<Address.MatrixAddress> implements Cloneable {
      * @Author  Jiaming Yan
      * @Description Schur分解
      */
-    public SymmetricSchurDecomposition schur() {
-        return new SymmetricSchurDecomposition(this);
-    }
+//    public SymmetricSchurDecomposition schur() {
+//        return new SymmetricSchurDecomposition(this);
+//    }
 
     /**
      * @Author  Jiaming Yan
      * @Description 奇异值分解
      */
-    public SVD svd() {
-        return new SVD(this);
-    }
+//    public SVD svd() {
+//        return new SVD(this);
+//    }
 
     /**
      * @Author  Jiaming Yan
      * @Description 特征值分解
      */
-    public EigenvalueDecomposition eigenvalue() {
-        return new EigenvalueDecomposition(this);
-    }
+//    public EigenvalueDecomposition eigenvalue() {
+//        return new EigenvalueDecomposition(this);
+//    }
 
     /**
      * @Author  Jiaming Yan
@@ -761,5 +758,153 @@ public class Matrix extends Cells<Address.MatrixAddress> implements Cloneable {
         }
     }
 
+    private static class RangeMatrix extends Matrix {
+
+        public RangeMatrix(
+                final int row0,
+                final int row1,
+                final Address.MatrixAddress chain,
+                final int col0,
+                final int col1,
+                final boolean contiguous,
+                final double[] data,
+                final int rows,
+                final int cols) {
+            super(row1-row0, col1-col0,
+                    data,
+                    new DirectMatrixAddress(data, row0, row1, chain, col0, col1, null, true, rows, cols));
+        }
+
+        public RangeMatrix(
+                final int[] ridx,
+                final Address.MatrixAddress chain,
+                final int col0,
+                final int col1,
+                final double[] data,
+                final int rows,
+                final int cols) {
+            super(ridx.length, col1-col0,
+                    data,
+                    new MappedMatrixAddress(data, ridx, chain, col0, col1, null, true, rows, cols));
+        }
+
+        public RangeMatrix(
+                final int row0,
+                final int row1,
+                final Address.MatrixAddress chain,
+                final int[] cidx,
+                final double[] data,
+                final int rows,
+                final int cols) {
+            super(row1-row0, cidx.length,
+                    data,
+                    new MappedMatrixAddress(data, row0, row1, chain, cidx, null, true, rows, cols));
+        }
+
+        public RangeMatrix(
+                final int[] ridx,
+                final Address.MatrixAddress chain,
+                final int[] cidx,
+                final double[] data,
+                final int rows,
+                final int cols) {
+            super(ridx.length, cidx.length,
+                    data,
+                    new MappedMatrixAddress(data, ridx, chain, cidx, null, true, rows, cols));
+        }
+    }
+
+    private static class ConstRangeRow extends RangeRow {
+
+        public ConstRangeRow(
+                final int row,
+                final Address.MatrixAddress chain,
+                final int col0,
+                final int col1,
+                final double[] data,
+                final int rows,
+                final int cols) {
+            super(row, chain, col0, col1, data, rows, cols);
+        }
+
+        @Override
+        public void set(final int pos, final double value) {
+            throw new UnsupportedOperationException();
+        }
+    }
+
+
+    private static class ConstRangeCol extends RangeCol {
+
+        public ConstRangeCol(
+                final int row0,
+                final int row1,
+                final Address.MatrixAddress chain,
+                final int col,
+                final double[] data,
+                final int rows,
+                final int cols) {
+            super(row0, row1, chain, col, data, rows, cols);
+        }
+
+        @Override
+        public void set(final int pos, final double value) {
+            throw new UnsupportedOperationException();
+        }
+    }
+
+    private static class ConstRangeMatrix extends RangeMatrix {
+
+        public ConstRangeMatrix(
+                final int row0,
+                final int row1,
+                final Address.MatrixAddress chain,
+                final int col0,
+                final int col1,
+                final boolean contiguous,
+                final double[] data,
+                final int rows,
+                final int cols) {
+            super(row0, row1, chain, col0, col1, contiguous, data, rows, cols);
+        }
+
+        public ConstRangeMatrix(
+                final int[] ridx,
+                final Address.MatrixAddress chain,
+                final int col0,
+                final int col1,
+                final double[] data,
+                final int rows,
+                final int cols) {
+            super(ridx, chain, col0, col1, data, rows, cols);
+        }
+
+        public ConstRangeMatrix(
+                final int row0,
+                final int row1,
+                final Address.MatrixAddress chain,
+                final int[] cidx,
+                final double[] data,
+                final int rows,
+                final int cols) {
+            super(row0, row1, chain, cidx, data, rows, cols);
+        }
+
+        public ConstRangeMatrix(
+                final int[] ridx,
+                final Address.MatrixAddress chain,
+                final int[] cidx,
+                final double[] data,
+                final int rows,
+                final int cols) {
+            super(ridx, chain, cidx, data, rows, cols);
+        }
+
+        @Override
+        public void set(final int row, final int col, final double value) {
+            throw new UnsupportedOperationException();
+        }
 
     }
+
+}
