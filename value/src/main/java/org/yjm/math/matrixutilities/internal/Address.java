@@ -7,7 +7,7 @@ import java.util.Set;
 
 /**
  * @Author  Jiaming Yan
- * @Description 矩阵和数组的访问方法接口
+ * @Description 矩阵和数组访问方法接口
  */
 public interface Address {
 
@@ -28,12 +28,12 @@ public interface Address {
     public int cols();
     /**
      * @Author  Jiaming Yan
-     * @Description 基址
+     * @Description
      */
     public int base();
     /**
      * @Author  Jiaming Yan
-     * @Description 最后地址
+     * @Description
      */
     public int last();
     /**
@@ -49,14 +49,14 @@ public interface Address {
 
     /**
      * @Author  Jiaming Yan
-     * @Description 是否可以连续访问
+     * @Description
      */
     public boolean isContiguous();
     public boolean isFortran();
 
     /**
      * @Author  Jiaming Yan
-     * @Description 一组有效标志
+     * @Description
      */
     public Set<Address.Flags> flags();
 
@@ -70,7 +70,7 @@ public interface Address {
     }
     /**
      * @Author  Jiaming Yan
-     * @Description Array访问器接口
+     * @Description Array访问接口
      */
     public interface ArrayAddress extends Cloneable, Address {
 
@@ -86,7 +86,7 @@ public interface Address {
     }
     /**
      * @Author  Jiaming Yan
-     * @Description Matrix访问器接口
+     * @Description Matrix访问接口
      */
     public interface MatrixAddress extends Cloneable, Address {
 

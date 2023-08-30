@@ -3,6 +3,11 @@ package org.yjm.math.matrixutilities;
 import org.yjm.QL;
 import org.yjm.lang.LibraryException;
 
+
+/**
+ * @Author  Jiaming Yan
+ * @Description Cholesky分解，把对称正定的矩阵分解为下三角矩阵L和其转置的乘积
+ */
 public class CholeskyDecomposition {
 
     private final static String MATRIX_IS_NOT_SIMMETRIC_POSITIVE = "Matrix is not symmetric positive definite.";
@@ -27,16 +32,16 @@ public class CholeskyDecomposition {
 
     /**
      * @Author  Jiaming Yan
-     * @Description Cholesky分解
+     * @Description Cholesky分解构造函数，
      */
     public CholeskyDecomposition(final Matrix A) {
+
         QL.require(A.rows() == A.cols(), Matrix.MATRIX_MUST_BE_SQUARE);
 
         this.n = A.rows();
         this.L = new Matrix(n, n);
         this.isspd = (A.rows() == A.cols());
 
-        // Main loop.
         for (int j = 0; j < n; j++) {
             double d = 0.0;
             for (int k = 0; k < j; k++) {

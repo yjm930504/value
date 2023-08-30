@@ -9,7 +9,7 @@ import java.util.Set;
 
 /**
  * @Author  Jiaming Yan
- * @Description 连续区间的所有访问基类
+ * @Description 矩阵访问基类
  */
 public abstract class DirectAddress implements Address, Cloneable{
     protected final double[] data;

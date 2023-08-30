@@ -6,7 +6,7 @@ import org.yjm.math.Ops.DoubleOp;
 
 /**
  * @Author  Jiaming Yan
- * @Description 代数计算接口
+ * @Description 代数计算接口，加减乘除法
  */
 public interface Algebra<T> {
     public T addAssign(final double scalar);

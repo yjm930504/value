@@ -9,6 +9,10 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Set;
 
+/**
+ * @Author  Jiaming Yan
+ * @Description 矩阵类
+ */
 public class Matrix extends Cells<Address.MatrixAddress> implements Cloneable {
 
     /**
