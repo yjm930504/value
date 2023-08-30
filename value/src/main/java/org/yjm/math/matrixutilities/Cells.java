@@ -7,7 +7,7 @@ import java.util.Set;
 
 /**
  * @Author  Jiaming Yan
- * @Description 将矩阵映射到线性数组上，为矩阵运算提供基础。
+ * @Description Cells类，方便后续计算处理
  */
 public abstract class Cells<T extends Address> implements Cloneable  {
     private final static String FORTRAN_ADDRESSING_EXPECTED = "variable \"%s\" should be FORTRAN-style addressing";

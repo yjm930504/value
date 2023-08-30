@@ -11,7 +11,7 @@ import java.util.Set;
 
 /**
  * @Author  Jiaming Yan
- * @Description 一维数组
+ * @Description 一维数组类
  */
 public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Iterable<Double>, Algebra<Array> {
 
@@ -144,7 +144,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
 
     /**
      * @Author  Jiaming Yan
-     * @Description 返回起始元素地址
+     * @Description 返回起始元素index
      */
     public int begin() {
         return addr.isFortran() ? 1 : 0;
@@ -152,7 +152,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
 
     /**
      * @Author  Jiaming Yan
-     * @Description 返回结束元素地址
+     * @Description 返回结束元素的index
      */
     public int end() {
         return size() + (addr.isFortran() ? 1 : 0);

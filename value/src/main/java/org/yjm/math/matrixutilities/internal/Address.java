@@ -12,7 +12,7 @@ import java.util.Set;
 public interface Address {
 
     public static final String INVALID_BACKWARD_INDEXING = "invalid backward indexing";
-    public static final String INVALID_ROW_INDEX = "invalid row index";
+    public static final String INVALID_ROW_INDEX = "无效行索引";
     public static final String INVALID_COLUMN_INDEX = "无效列索引";
     public static final String GAP_INDEX_FOUND = "gap index found";
 
@@ -90,7 +90,15 @@ public interface Address {
      */
     public interface MatrixAddress extends Cloneable, Address {
 
+        /**
+         * @Author  Jiaming Yan
+         * @Description 复制Matrix对象
+         */
         public MatrixAddress clone();
+        /**
+         * @Author  Jiaming Yan
+         * @Description
+         */
         public int op(int row, int col);
         public MatrixAddress toFortran();
         public MatrixAddress toJava();

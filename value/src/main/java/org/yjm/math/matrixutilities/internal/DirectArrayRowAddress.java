@@ -12,10 +12,12 @@ public class DirectArrayRowAddress extends DirectAddress implements Address.Arra
             final double[] data,
             final int row,
             final Address chain,
-            final int col0, final int col1,
+            final int col0,
+            final int col1,
             final Set<Flags> flags,
             final boolean contiguous,
-            final int rows, final int cols) {
+            final int rows,
+            final int cols) {
         super(data, row, row+1, chain, col0, col1, flags, contiguous, rows, cols);
     }
 

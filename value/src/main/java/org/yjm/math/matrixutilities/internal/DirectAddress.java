@@ -12,16 +12,23 @@ import java.util.Set;
  * @Description 矩阵访问基类
  */
 public abstract class DirectAddress implements Address, Cloneable{
+
+    //存储数组数据
     protected final double[] data;
+
     protected final int row0;
     protected final int row1;
     protected final Address chain;
     protected final int col0;
+
     protected final int col1;
     protected final Set<Address.Flags> flags;
     protected final boolean contiguous;
+    //行数
     protected final int rows;
+    //列数
     protected final int cols;
+    //偏移
     protected final int offset;
     private final int base;
     private final int last;
