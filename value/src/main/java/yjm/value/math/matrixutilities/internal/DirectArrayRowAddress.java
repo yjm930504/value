@@ -6,6 +6,10 @@ import java.util.EnumSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+/**
+ * @Author  Jiaming Yan
+ * @Description
+ */
 public class DirectArrayRowAddress extends DirectAddress implements Address.ArrayAddress{
 
     public DirectArrayRowAddress(

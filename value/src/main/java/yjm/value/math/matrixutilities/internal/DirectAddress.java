@@ -9,11 +9,14 @@ import java.util.Set;
 
 /**
  * @Author  Jiaming Yan
- * @Description 矩阵访问基类
+ * @Description DirectAddress抽象类
  */
 public abstract class DirectAddress implements Address, Cloneable{
 
-    //存储数组数据
+    /**
+     * @Author  Jiaming Yan
+     * @Description
+     */
     protected final double[] data;
 
     protected final int row0;
@@ -33,9 +36,15 @@ public abstract class DirectAddress implements Address, Cloneable{
     private final int base;
     private final int last;
 
+
+    /**
+     * @Author  Jiaming Yan
+     * @Description 构造函数
+     */
     public DirectAddress(
             final double[] data,
-            final int row0, final int row1,
+            final int row0,
+            final int row1,
             final Address chain,
             final int col0, final int col1,
             final Set<Address.Flags> flags,
@@ -110,6 +119,10 @@ public abstract class DirectAddress implements Address, Cloneable{
         return sb.toString();
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 复制DirectAddress对象
+     */
     @Override
     public DirectAddress clone() {
         try {

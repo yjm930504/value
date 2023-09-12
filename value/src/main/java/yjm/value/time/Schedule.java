@@ -419,8 +419,9 @@ public class Schedule {
      * @author Jiaming Yan
      * @description: 返回schedule的计息区间生成规则
      */
-    public DateGeneration.Rule rule() /* @ReadOnly */ {
+    public DateGeneration.Rule rule() {
         QL.require(fullInterface_, "full interface not available");
+        return rule_;
     }
 
     /**

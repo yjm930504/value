@@ -7,7 +7,7 @@ import java.util.Set;
 
 /**
  * @Author  Jiaming Yan
- * @Description 矩阵和数组访问方法接口
+ * @Description Address接口
  */
 public interface Address {
 
@@ -31,6 +31,7 @@ public interface Address {
      * @Description
      */
     public int base();
+
     /**
      * @Author  Jiaming Yan
      * @Description
@@ -70,7 +71,7 @@ public interface Address {
     }
     /**
      * @Author  Jiaming Yan
-     * @Description Array访问接口
+     * @Description Array接口
      */
     public interface ArrayAddress extends Cloneable, Address {
 
@@ -86,7 +87,7 @@ public interface Address {
     }
     /**
      * @Author  Jiaming Yan
-     * @Description Matrix访问接口
+     * @Description Matrix接口
      */
     public interface MatrixAddress extends Cloneable, Address {
 
@@ -95,6 +96,7 @@ public interface Address {
          * @Description 复制Matrix对象
          */
         public MatrixAddress clone();
+
         /**
          * @Author  Jiaming Yan
          * @Description

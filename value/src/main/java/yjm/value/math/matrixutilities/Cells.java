@@ -8,7 +8,7 @@ import java.util.Set;
 
 /**
  * @Author  Jiaming Yan
- * @Description Cells类，方便后续计算处理
+ * @Description Cells类
  */
 public abstract class Cells<T extends Address> implements Cloneable  {
     private final static String FORTRAN_ADDRESSING_EXPECTED = "variable \"%s\" should be FORTRAN-style addressing";
@@ -23,20 +23,35 @@ public abstract class Cells<T extends Address> implements Cloneable  {
     protected final static String MATRIX_IS_SINGULAR = "matrix is singular";
     protected final static String NON_CONTIGUOUS_DATA = "不支持非连续数据";
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 行数
+     */
     protected final int rows;
+
+    /**
+     * @Author  Jiaming Yan
+     * @Description 列数
+     */
     protected final int cols;
+
+    /**
+     * @Author  Jiaming Yan
+     * @Description 大小
+     */
     protected final int size;
 
     protected T addr;
+
     /**
      * @Author  Jiaming Yan
-     * @Description 保存数据
+     * @Description 数据
      */
     public double[] $;
 
     /**
      * @Author  Jiaming Yan
-     * @Description 构造函数
+     * @Description 构造函数，空数据
      */
     protected Cells(
             final int rows,
@@ -51,7 +66,7 @@ public abstract class Cells<T extends Address> implements Cloneable  {
 
     /**
      * @Author  Jiaming Yan
-     * @Description 构造函数
+     * @Description 构造函数，带数据
      */
     protected Cells(
             final int rows,
@@ -72,24 +87,27 @@ public abstract class Cells<T extends Address> implements Cloneable  {
      * @Description 返回行数
      */
     public final int rows()       { return rows; }
+
     /**
      * @Author  Jiaming Yan
      * @Description 返回列数
      */
     public final int columns()    { return cols; }
+
     /**
      * @Author  Jiaming Yan
      * @Description 返回列数
      */
     public final int cols()       { return cols; }
+
     /**
      * @Author  Jiaming Yan
-     * @Description 返回SIZE
+     * @Description 返回Size
      */
     public final int size()       { return size; }
     /**
      * @Author  Jiaming Yan
-     * @Description 判断SIZE是否小于0
+     * @Description 判断是否为空
      */
     public final boolean empty() { return size <= 0; }
     /**

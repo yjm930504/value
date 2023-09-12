@@ -5,9 +5,11 @@ import yjm.value.math.Ops;
 
 /**
  * @Author  Jiaming Yan
- * @Description 代数计算接口，加减乘除法
+ * @Description 代数计算接口
  */
 public interface Algebra<T> {
+
+
     public T addAssign(final double scalar);
     public T addAssign(final T another);
     public T subAssign(final double scalar);

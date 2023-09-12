@@ -17,7 +17,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
 
     /**
      * @Author  Jiaming Yan
-     * @Description 构造函数，一个元素的数组
+     * @Description 构造函数，空数组
      */
     public Array() {
         this(0, EnumSet.noneOf(Address.Flags.class));
@@ -34,7 +34,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
 
     /**
      * @Author  Jiaming Yan
-     * @Description 构造函数，一个元素的数组
+     * @Description 根据size的构造函数
      */
     public Array(final int size) {
         this(size, EnumSet.noneOf(Address.Flags.class));
@@ -42,7 +42,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
 
     /**
      * @Author  Jiaming Yan
-     * @Description 构造函数
+     * @Description 构造函数，1行size列的数组
      */
     public Array(final int size, final Set<Address.Flags> flags) {
         super(1, size, null);
