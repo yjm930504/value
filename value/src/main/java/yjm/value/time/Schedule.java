@@ -411,7 +411,7 @@ public class Schedule {
      * @description: 返回schedule的结束日的工作日调整规则
      */
     public BusinessDayConvention terminationDateBusinessDayConvention() {
-        QL.require(fullInterface_, "full interface not available"); // TODO: message
+        QL.require(fullInterface_, "full interface not available");
         return terminationDateConvention_;
     }
 
@@ -420,8 +420,7 @@ public class Schedule {
      * @description: 返回schedule的计息区间生成规则
      */
     public DateGeneration.Rule rule() /* @ReadOnly */ {
-        QL.require(fullInterface_, "full interface not available"); // TODO: message
-        return rule_;
+        QL.require(fullInterface_, "full interface not available");
     }
 
     /**
@@ -429,7 +428,7 @@ public class Schedule {
      * @description: 返回schedule的endOfMonth_
      */
     public boolean endOfMonth() {
-        QL.require(fullInterface_, "full interface not available"); // TODO: message
+        QL.require(fullInterface_, "full interface not available");
         return endOfMonth_;
     }
 
