@@ -11,7 +11,7 @@ import java.lang.reflect.InvocationTargetException;
  * @Description 用于验证和发送日志消息
  */
 
-public class ValueValidate {
+public class QL {
 
 
     public static void require(
@@ -75,16 +75,16 @@ public class ValueValidate {
     }
 
     public static void error(final String message) {
-        if (ValueLogger.logger!=null) {
-            ValueLogger.logger.error(message);
+        if (JQuantLib.logger!=null) {
+            JQuantLib.logger.error(message);
         } else {
             System.err.printf("ERROR: %s\n", message);
         }
     }
 
     public static void error(final String message, final Throwable t) {
-        if (ValueLogger.logger!=null) {
-            ValueLogger.logger.error(message, t);
+        if (JQuantLib.logger!=null) {
+            JQuantLib.logger.error(message, t);
         } else {
             System.err.printf("ERROR: %s : %s\n", message, t.getMessage());
             t.printStackTrace(System.err);
@@ -92,8 +92,8 @@ public class ValueValidate {
     }
 
     public static void error(final Throwable t) {
-        if (ValueLogger.logger!=null) {
-            ValueLogger.logger.error(t.getMessage(), t);
+        if (JQuantLib.logger!=null) {
+            JQuantLib.logger.error(t.getMessage(), t);
         } else {
             System.err.printf("ERROR: %s\n", t.getMessage());
             System.err.println(t.getMessage());
@@ -102,16 +102,16 @@ public class ValueValidate {
     }
 
     public static void warn(final String message) {
-        if (ValueLogger.logger!=null) {
-            ValueLogger.logger.warn(message);
+        if (JQuantLib.logger!=null) {
+            JQuantLib.logger.warn(message);
         } else {
             System.err.printf("WARN: %s\n", message);
         }
     }
 
     public static void warn(final String message, final Throwable t) {
-        if (ValueLogger.logger!=null) {
-            ValueLogger.logger.warn(message, t);
+        if (JQuantLib.logger!=null) {
+            JQuantLib.logger.warn(message, t);
         } else {
             System.err.printf("WARN: %s : %s\n", message, t.getMessage());
             t.printStackTrace(System.err);
@@ -119,8 +119,8 @@ public class ValueValidate {
     }
 
     public static void warn(final Throwable t) {
-        if (ValueLogger.logger!=null) {
-            ValueLogger.logger.warn(t.getMessage(), t);
+        if (JQuantLib.logger!=null) {
+            JQuantLib.logger.warn(t.getMessage(), t);
         } else {
             System.err.printf("WARN: %s\n", t.getMessage());
             System.err.println(t.getMessage());
@@ -129,16 +129,16 @@ public class ValueValidate {
     }
 
     public static void info(final String message) {
-        if (ValueLogger.logger!=null) {
-            ValueLogger.logger.info(message);
+        if (JQuantLib.logger!=null) {
+            JQuantLib.logger.info(message);
         } else {
             System.err.printf("INFO: %s\n", message);
         }
     }
 
     public static void info(final String message, final Throwable t) {
-        if (ValueLogger.logger!=null) {
-            ValueLogger.logger.info(message, t);
+        if (JQuantLib.logger!=null) {
+            JQuantLib.logger.info(message, t);
         } else {
             System.err.printf("INFO: %s : %s\n", message, t.getMessage());
             t.printStackTrace(System.err);
@@ -146,8 +146,8 @@ public class ValueValidate {
     }
 
     public static void info(final Throwable t) {
-        if (ValueLogger.logger!=null) {
-            ValueLogger.logger.info(t.getMessage(), t);
+        if (JQuantLib.logger!=null) {
+            JQuantLib.logger.info(t.getMessage(), t);
         } else {
             System.err.printf("INFO: %s\n", t.getMessage());
             System.err.println(t.getMessage());
@@ -156,16 +156,16 @@ public class ValueValidate {
     }
 
     public static void debug(final String message) {
-        if (ValueLogger.logger!=null) {
-            ValueLogger.logger.debug(message);
+        if (JQuantLib.logger!=null) {
+            JQuantLib.logger.debug(message);
         } else {
             System.err.printf("DEBUG: %s\n", message);
         }
     }
 
     public static void debug(final String message, final Throwable t) {
-        if (ValueLogger.logger!=null) {
-            ValueLogger.logger.debug(message, t);
+        if (JQuantLib.logger!=null) {
+            JQuantLib.logger.debug(message, t);
         } else {
             System.err.printf("DEBUG: %s : %s\n", message, t.getMessage());
             t.printStackTrace(System.err);
@@ -173,8 +173,8 @@ public class ValueValidate {
     }
 
     public static void debug(final Throwable t) {
-        if (ValueLogger.logger!=null) {
-            ValueLogger.logger.debug(t.getMessage(), t);
+        if (JQuantLib.logger!=null) {
+            JQuantLib.logger.debug(t.getMessage(), t);
         } else {
             System.err.printf("DEBUG: %s\n", t.getMessage());
             System.err.println(t.getMessage());
@@ -183,8 +183,8 @@ public class ValueValidate {
     }
 
     public static void trace(final String message) {
-        if (ValueLogger.logger!=null) {
-            ValueLogger.logger.trace(message);
+        if (JQuantLib.logger!=null) {
+            JQuantLib.logger.trace(message);
         } else {
             System.err.printf("TRACE: %s\n", message);
         }
@@ -192,8 +192,8 @@ public class ValueValidate {
 
 
     public static void trace(final String message, final Throwable t) {
-        if (ValueLogger.logger!=null) {
-            ValueLogger.logger.trace(message, t);
+        if (JQuantLib.logger!=null) {
+            JQuantLib.logger.trace(message, t);
         } else {
             System.err.printf("TRACE: %s : %s\n", message, t.getMessage());
             t.printStackTrace(System.err);
@@ -201,8 +201,8 @@ public class ValueValidate {
     }
 
     public static void trace(final Throwable t) {
-        if (ValueLogger.logger!=null) {
-            ValueLogger.logger.trace(t.getMessage(), t);
+        if (JQuantLib.logger!=null) {
+            JQuantLib.logger.trace(t.getMessage(), t);
         } else {
             System.err.printf("TRACE: %s\n", t.getMessage());
             System.err.println(t.getMessage());

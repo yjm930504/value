@@ -1,6 +1,6 @@
 package yjm.value.math.matrixutilities;
 
-import yjm.value.ValueValidate;
+import yjm.value.QL;
 import yjm.value.lang.LibraryException;
 
 public class LUDecomposition {
@@ -134,7 +134,7 @@ public class LUDecomposition {
      * @Description 计算矩阵行列式
      */
     public double det() {
-        ValueValidate.require(m == n, Matrix.MATRIX_MUST_BE_SQUARE);
+        QL.require(m == n, Matrix.MATRIX_MUST_BE_SQUARE);
         double d = pivsign;
         for (int j = 0; j < n; j++) {
             d *= LU.$[LU.addr.op(j, j)];
@@ -147,7 +147,7 @@ public class LUDecomposition {
      * @Description 解决A*X = B
      */
     public Matrix solve(final Matrix B) {
-        ValueValidate.require(B.rows() == this.m, Matrix.MATRIX_IS_INCOMPATIBLE);
+        QL.require(B.rows() == this.m, Matrix.MATRIX_IS_INCOMPATIBLE);
         if (!this.isNonSingular())
             throw new LibraryException(MATRIX_IS_SINGULAR);
 

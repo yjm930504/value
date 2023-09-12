@@ -1,7 +1,6 @@
 package yjm.value.math.matrixutilities;
 
-import yjm.value.ValueValidate;
-import org.value.math.matrixutilities.internal.*;
+import yjm.value.QL;
 import yjm.value.math.matrixutilities.internal.*;
 
 import java.util.Arrays;
@@ -132,7 +131,7 @@ public class Matrix extends Cells<Address.MatrixAddress> implements Cloneable {
      * @Description 加法
      */
     public Matrix addAssign(final Matrix another) {
-        ValueValidate.require(rows() == another.rows() && cols() == another.cols() ,  MATRIX_IS_INCOMPATIBLE);
+        QL.require(rows() == another.rows() && cols() == another.cols() ,  MATRIX_IS_INCOMPATIBLE);
         if (this.addr.isContiguous() && another.addr.isContiguous()) {
             for (int i=0; i<size(); i++) {
                 this.$[i] += another.$[i];
@@ -160,7 +159,7 @@ public class Matrix extends Cells<Address.MatrixAddress> implements Cloneable {
      * @Description 减法
      */
     public Matrix subAssign(final Matrix another) {
-        ValueValidate.require(rows() == another.rows() && cols() == another.cols() ,  MATRIX_IS_INCOMPATIBLE); // QA:[RG]::verified
+        QL.require(rows() == another.rows() && cols() == another.cols() ,  MATRIX_IS_INCOMPATIBLE); // QA:[RG]::verified
         if (this.addr.isContiguous() && another.addr.isContiguous()) {
             for (int i=0; i<size(); i++) {
                 this.$[i] -= another.$[i];
@@ -232,7 +231,7 @@ public class Matrix extends Cells<Address.MatrixAddress> implements Cloneable {
      * @Description 加法
      */
     public Matrix add(final Matrix another) {
-        ValueValidate.require(rows() == another.rows() && cols() == another.cols() ,  MATRIX_IS_INCOMPATIBLE); // QA:[RG]::verified
+        QL.require(rows() == another.rows() && cols() == another.cols() ,  MATRIX_IS_INCOMPATIBLE); // QA:[RG]::verified
         final Matrix result = new Matrix(rows(), cols());
         if (this.addr.isContiguous() && another.addr.isContiguous()) {
             for (int i=0; i<size(); i++) {
@@ -261,7 +260,7 @@ public class Matrix extends Cells<Address.MatrixAddress> implements Cloneable {
      * @Description 减法
      */
     public Matrix sub(final Matrix another) {
-        ValueValidate.require(rows() == another.rows() && cols() == another.cols() ,  MATRIX_IS_INCOMPATIBLE); // QA:[RG]::verified
+        QL.require(rows() == another.rows() && cols() == another.cols() ,  MATRIX_IS_INCOMPATIBLE); // QA:[RG]::verified
         final Matrix result = new Matrix(rows(), cols());
         if (this.addr.isContiguous() && another.addr.isContiguous()) {
             for (int addr=0; addr<size(); addr++) {
@@ -348,7 +347,7 @@ public class Matrix extends Cells<Address.MatrixAddress> implements Cloneable {
      * @Description 乘法
      */
     public Array mul(final Array array) {
-        ValueValidate.require(cols() == array.size(), ARRAY_IS_INCOMPATIBLE); // QA:[RG]::verified
+        QL.require(cols() == array.size(), ARRAY_IS_INCOMPATIBLE); // QA:[RG]::verified
         final Array result = new Array(rows(), this.flags());
         final Address.MatrixAddress.MatrixOffset toff = this.addr.offset();
         final Address.ArrayAddress.ArrayOffset  aoff = array.addr.offset();
@@ -375,7 +374,7 @@ public class Matrix extends Cells<Address.MatrixAddress> implements Cloneable {
      * @Description 乘法
      */
     public Matrix mul(final Matrix another) {
-        ValueValidate.require(cols() == another.rows(),  MATRIX_IS_INCOMPATIBLE); // QA:[RG]::verified
+        QL.require(cols() == another.rows(),  MATRIX_IS_INCOMPATIBLE); // QA:[RG]::verified
         final Matrix result = new Matrix(rows(), another.cols(), this.flags());
         final Address.MatrixAddress.MatrixOffset toff = this.addr.offset();
         final Address.MatrixAddress.MatrixOffset aoff = another.addr.offset();
@@ -479,7 +478,7 @@ public class Matrix extends Cells<Address.MatrixAddress> implements Cloneable {
      * @Description 对角线
      */
     public Array diagonal() {
-        ValueValidate.require(rows() == cols(),  MATRIX_MUST_BE_SQUARE);
+        QL.require(rows() == cols(),  MATRIX_MUST_BE_SQUARE);
         final Array result = new Array(cols());
         int addr = 0;
         for (int i = 0; i < cols(); i++) {
@@ -502,7 +501,7 @@ public class Matrix extends Cells<Address.MatrixAddress> implements Cloneable {
      * @Description 逆矩阵
      */
     public Matrix inverse() {
-        ValueValidate.require(this.rows == this.cols, "matrix is not square");
+        QL.require(this.rows == this.cols, "matrix is not square");
         return (new LUDecomposition(this)).solve(new Identity(rows()));
     }
 
@@ -517,9 +516,9 @@ public class Matrix extends Cells<Address.MatrixAddress> implements Cloneable {
 
     public Array rangeRow(final int row, final int col0, final int col1) {
         final int offset = addr.isFortran() ? 1 : 0;
-        ValueValidate.require(row  >= offset && row  <= rows()+offset, ArrayIndexOutOfBoundsException.class, Address.INVALID_ROW_INDEX);
-        ValueValidate.require(col0 >= offset && col0 < cols()+offset && col1 >= offset && col1 <= cols()+offset, ArrayIndexOutOfBoundsException.class, Address.INVALID_COLUMN_INDEX);
-        ValueValidate.require(col0 <= col1, ArrayIndexOutOfBoundsException.class, Address.INVALID_BACKWARD_INDEXING);
+        QL.require(row  >= offset && row  <= rows()+offset, ArrayIndexOutOfBoundsException.class, Address.INVALID_ROW_INDEX);
+        QL.require(col0 >= offset && col0 < cols()+offset && col1 >= offset && col1 <= cols()+offset, ArrayIndexOutOfBoundsException.class, Address.INVALID_COLUMN_INDEX);
+        QL.require(col0 <= col1, ArrayIndexOutOfBoundsException.class, Address.INVALID_BACKWARD_INDEXING);
         return new RangeRow(row-offset, this.addr, col0-offset, col1-offset, $, rows(), cols());
     }
 
@@ -533,18 +532,18 @@ public class Matrix extends Cells<Address.MatrixAddress> implements Cloneable {
 
     public Array rangeCol(final int col, final int row0, final int row1) {
         final int offset = addr.isFortran() ? 1 : 0;
-        ValueValidate.require(col  >= offset && col  <= cols()+offset, ArrayIndexOutOfBoundsException.class, Address.INVALID_COLUMN_INDEX);
-        ValueValidate.require(row0 >= offset && row0 < rows()+offset && row1 >= offset && row1 <= rows()+offset, ArrayIndexOutOfBoundsException.class, Address.INVALID_ROW_INDEX);
-        ValueValidate.require(row0 <= row1, ArrayIndexOutOfBoundsException.class, Address.INVALID_BACKWARD_INDEXING);
+        QL.require(col  >= offset && col  <= cols()+offset, ArrayIndexOutOfBoundsException.class, Address.INVALID_COLUMN_INDEX);
+        QL.require(row0 >= offset && row0 < rows()+offset && row1 >= offset && row1 <= rows()+offset, ArrayIndexOutOfBoundsException.class, Address.INVALID_ROW_INDEX);
+        QL.require(row0 <= row1, ArrayIndexOutOfBoundsException.class, Address.INVALID_BACKWARD_INDEXING);
         return new RangeCol(row0-offset, row1-offset, this.addr, col-offset, $, rows(), cols());
     }
 
     public Matrix range(final int row0, final int row1, final int col0, final int col1) {
         final int offset = addr.isFortran() ? 1 : 0;
-        ValueValidate.require(row0 >= offset && row0 < rows()+offset && row1 >= offset && row1 <= rows()+offset, ArrayIndexOutOfBoundsException.class, Address.INVALID_ROW_INDEX);
-        ValueValidate.require(row0<=row1, ArrayIndexOutOfBoundsException.class, Address.INVALID_BACKWARD_INDEXING);
-        ValueValidate.require(col0 >= offset && col0 < cols()+offset && col1 >= offset && col1 <= cols()+offset, ArrayIndexOutOfBoundsException.class, Address.INVALID_COLUMN_INDEX);
-        ValueValidate.require(col0<=col1, ArrayIndexOutOfBoundsException.class, Address.INVALID_BACKWARD_INDEXING);
+        QL.require(row0 >= offset && row0 < rows()+offset && row1 >= offset && row1 <= rows()+offset, ArrayIndexOutOfBoundsException.class, Address.INVALID_ROW_INDEX);
+        QL.require(row0<=row1, ArrayIndexOutOfBoundsException.class, Address.INVALID_BACKWARD_INDEXING);
+        QL.require(col0 >= offset && col0 < cols()+offset && col1 >= offset && col1 <= cols()+offset, ArrayIndexOutOfBoundsException.class, Address.INVALID_COLUMN_INDEX);
+        QL.require(col0<=col1, ArrayIndexOutOfBoundsException.class, Address.INVALID_BACKWARD_INDEXING);
         final boolean contiguous = super.cols()==(col1-col0+1);
         return new RangeMatrix(row0-offset, row1-offset, this.addr, col0-offset, col1-offset, contiguous, $, rows(), cols());
     }
@@ -571,9 +570,9 @@ public class Matrix extends Cells<Address.MatrixAddress> implements Cloneable {
 
     public Array constRangeRow(final int row, final int col0, final int col1) {
         final int offset = addr.isFortran() ? 1 : 0;
-        ValueValidate.require(row  >= offset && row  < rows()+offset, ArrayIndexOutOfBoundsException.class, Address.INVALID_ROW_INDEX);
-        ValueValidate.require(col0 >= offset && col0 < cols()+offset && col1 >= offset && col1 <= cols()+offset, ArrayIndexOutOfBoundsException.class, Address.INVALID_COLUMN_INDEX);
-        ValueValidate.require(col0<=col1, ArrayIndexOutOfBoundsException.class, Address.INVALID_BACKWARD_INDEXING);
+        QL.require(row  >= offset && row  < rows()+offset, ArrayIndexOutOfBoundsException.class, Address.INVALID_ROW_INDEX);
+        QL.require(col0 >= offset && col0 < cols()+offset && col1 >= offset && col1 <= cols()+offset, ArrayIndexOutOfBoundsException.class, Address.INVALID_COLUMN_INDEX);
+        QL.require(col0<=col1, ArrayIndexOutOfBoundsException.class, Address.INVALID_BACKWARD_INDEXING);
         return new ConstRangeRow(row, this.addr, col0, col1, $, rows(), cols());
     }
 
@@ -588,19 +587,19 @@ public class Matrix extends Cells<Address.MatrixAddress> implements Cloneable {
 
     public Array constRangeCol(final int col, final int row0, final int row1) {
         final int offset = addr.isFortran() ? 1 : 0;
-        ValueValidate.require(col  >= offset && col  < cols()+offset, ArrayIndexOutOfBoundsException.class, Address.INVALID_COLUMN_INDEX);
-        ValueValidate.require(row0 >= offset && row0 < rows()+offset && row1 >= offset && row1 <= rows()+offset, ArrayIndexOutOfBoundsException.class, Address.INVALID_ROW_INDEX);
-        ValueValidate.require(row0<=row1, ArrayIndexOutOfBoundsException.class, Address.INVALID_BACKWARD_INDEXING);
+        QL.require(col  >= offset && col  < cols()+offset, ArrayIndexOutOfBoundsException.class, Address.INVALID_COLUMN_INDEX);
+        QL.require(row0 >= offset && row0 < rows()+offset && row1 >= offset && row1 <= rows()+offset, ArrayIndexOutOfBoundsException.class, Address.INVALID_ROW_INDEX);
+        QL.require(row0<=row1, ArrayIndexOutOfBoundsException.class, Address.INVALID_BACKWARD_INDEXING);
         return new ConstRangeCol(row0, row1, this.addr, col, $, rows(), cols());
     }
 
 
     public Matrix constRange(final int row0, final int row1, final int col0, final int col1) {
         final int offset = addr.isFortran() ? 1 : 0;
-        ValueValidate.require(row0 >= offset && row0 < rows()+offset && row1 >= offset && row1 <= rows()+offset, ArrayIndexOutOfBoundsException.class, Address.INVALID_ROW_INDEX);
-        ValueValidate.require(row0<=row1, ArrayIndexOutOfBoundsException.class, Address.INVALID_BACKWARD_INDEXING);
-        ValueValidate.require(col0 >= offset && col0 < cols()+offset && col1 >= offset && col1 <= cols()+offset, ArrayIndexOutOfBoundsException.class, Address.INVALID_COLUMN_INDEX);
-        ValueValidate.require(col0<=col1, ArrayIndexOutOfBoundsException.class, Address.INVALID_BACKWARD_INDEXING);
+        QL.require(row0 >= offset && row0 < rows()+offset && row1 >= offset && row1 <= rows()+offset, ArrayIndexOutOfBoundsException.class, Address.INVALID_ROW_INDEX);
+        QL.require(row0<=row1, ArrayIndexOutOfBoundsException.class, Address.INVALID_BACKWARD_INDEXING);
+        QL.require(col0 >= offset && col0 < cols()+offset && col1 >= offset && col1 <= cols()+offset, ArrayIndexOutOfBoundsException.class, Address.INVALID_COLUMN_INDEX);
+        QL.require(col0<=col1, ArrayIndexOutOfBoundsException.class, Address.INVALID_BACKWARD_INDEXING);
         final boolean contiguous = super.cols()==(col1-col0+1);
         return new ConstRangeMatrix(row0, row1, this.addr, col0, col1, contiguous, $, rows(), cols());
     }
@@ -630,21 +629,21 @@ public class Matrix extends Cells<Address.MatrixAddress> implements Cloneable {
     }
 
     public Matrix fill(final double scalar) {
-        ValueValidate.require(addr.isContiguous(), NON_CONTIGUOUS_DATA);
+        QL.require(addr.isContiguous(), NON_CONTIGUOUS_DATA);
         Arrays.fill($, addr.base(), this.size(), scalar);
         return this;
     }
 
     public Matrix fill(final Matrix another) {
-        ValueValidate.require(addr.isContiguous(), NON_CONTIGUOUS_DATA);
-        ValueValidate.require(another.addr.isContiguous(), NON_CONTIGUOUS_DATA);
-        ValueValidate.require(this.rows()==another.rows() && this.cols()==another.cols() && this.size()==another.size(), WRONG_BUFFER_LENGTH);
+        QL.require(addr.isContiguous(), NON_CONTIGUOUS_DATA);
+        QL.require(another.addr.isContiguous(), NON_CONTIGUOUS_DATA);
+        QL.require(this.rows()==another.rows() && this.cols()==another.cols() && this.size()==another.size(), WRONG_BUFFER_LENGTH);
         System.arraycopy(another.$, another.addr.base(), this.$, this.addr.base(), this.size());
         return this;
     }
 
     public void fillRow(final int row, final Array array) {
-        ValueValidate.require(cols() == array.size() ,  ARRAY_IS_INCOMPATIBLE);
+        QL.require(cols() == array.size() ,  ARRAY_IS_INCOMPATIBLE);
         if (this.addr.isContiguous() && array.addr.isContiguous()) {
             System.arraycopy(array.$, 0, $, addr.op(row, 0), cols());
         } else {
@@ -659,7 +658,7 @@ public class Matrix extends Cells<Address.MatrixAddress> implements Cloneable {
     }
 
     public void fillCol(final int col, final Array array) {
-        ValueValidate.require(rows() == array.size() ,  ARRAY_IS_INCOMPATIBLE); // QA:[RG]::verified
+        QL.require(rows() == array.size() ,  ARRAY_IS_INCOMPATIBLE); // QA:[RG]::verified
         if (this.addr.isContiguous() && array.addr.isContiguous() && cols() == 1) {
             System.arraycopy(array.$, 0, $, 0, size());
         } else {
@@ -674,9 +673,9 @@ public class Matrix extends Cells<Address.MatrixAddress> implements Cloneable {
     }
 
     public Matrix swap(final Matrix another) {
-        ValueValidate.require(addr.isContiguous(), NON_CONTIGUOUS_DATA);
-        ValueValidate.require(another.addr.isContiguous(), NON_CONTIGUOUS_DATA);
-        ValueValidate.require(this.rows()==another.rows() && this.cols()==another.cols() && this.size()==another.size(), WRONG_BUFFER_LENGTH);
+        QL.require(addr.isContiguous(), NON_CONTIGUOUS_DATA);
+        QL.require(another.addr.isContiguous(), NON_CONTIGUOUS_DATA);
+        QL.require(this.rows()==another.rows() && this.cols()==another.cols() && this.size()==another.size(), WRONG_BUFFER_LENGTH);
         // swaps data
         final double [] tdata;
         final Address.MatrixAddress taddr;
@@ -686,7 +685,7 @@ public class Matrix extends Cells<Address.MatrixAddress> implements Cloneable {
     }
 
     public Matrix sort() {
-        ValueValidate.require(addr.isContiguous(), NON_CONTIGUOUS_DATA);
+        QL.require(addr.isContiguous(), NON_CONTIGUOUS_DATA);
         Arrays.sort($, addr.base(), addr.last());
         return this;
     }

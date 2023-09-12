@@ -4,7 +4,7 @@ import yjm.value.daycounters.daycounter;
 import yjm.value.lang.LibraryException;
 import yjm.value.time.Date;
 import yjm.value.time.Frequency;
-import yjm.value.ValueValidate;
+import yjm.value.QL;
 
 public class InterestRate {
 
@@ -52,7 +52,7 @@ public class InterestRate {
 
         if (this.compound == Compounding.Compounded || this.compound == Compounding.SimpleThenCompounded) {
             freqMakesSense = true;
-            ValueValidate.require(freq != Frequency.Once && freq != Frequency.NoFrequency,
+            QL.require(freq != Frequency.Once && freq != Frequency.NoFrequency,
                     "频率" + freq.toString() + "与复利方式" + comp.toString() + "不匹配");
             this.freq = freq.toInteger();
         }
@@ -65,8 +65,8 @@ public class InterestRate {
     public final double compoundFactor(final double time) {
 
         final double t = time;
-        ValueValidate.require(t >= 0.0 , "计算复利因子时年化时间不可为空");
-        ValueValidate.require(!Double.isNaN(rate) , "计算复利因子时利率不可为空");
+        QL.require(t >= 0.0 , "计算复利因子时年化时间不可为空");
+        QL.require(!Double.isNaN(rate) , "计算复利因子时利率不可为空");
         final double r = rate;
         if (compound == Compounding.Simple) {
             return 1.0 + r * t;
@@ -168,7 +168,7 @@ public class InterestRate {
             final daycounter resultDC,
             final Compounding comp,
             final Frequency freq) {
-        ValueValidate.require(d1.lt(d2) , "开始日期不可晚于结束日期");
+        QL.require(d1.lt(d2) , "开始日期不可晚于结束日期");
 
         //根据日算惯例dc计算年化时间
         final double t1 = this.dc.yearFraction(d1, d2);
@@ -188,8 +188,8 @@ public class InterestRate {
 
         final double t = time;
         final double f = freq.toInteger();
-        ValueValidate.require(c > 0.0 , "复利因子必须为正数");
-        ValueValidate.require(t > 0.0 , "年化时间必须为正数");
+        QL.require(c > 0.0 , "复利因子必须为正数");
+        QL.require(t > 0.0 , "年化时间必须为正数");
 
         double rate;
 
@@ -241,7 +241,7 @@ public class InterestRate {
      */
     public static InterestRate impliedRate(final double compound, final Date d1, final Date d2,
                                            final daycounter resultDC, final Compounding comp, final Frequency freq) {
-        ValueValidate.require(d1.le(d2) , "计算隐含利率时，起始日期应该不晚于结束日期");
+        QL.require(d1.le(d2) , "计算隐含利率时，起始日期应该不晚于结束日期");
         final double t = resultDC.yearFraction(d1, d2);
         return impliedRate(compound, t, resultDC, comp, freq);
     }

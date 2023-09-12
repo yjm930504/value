@@ -1,6 +1,9 @@
 package yjm.value.time;
 
 import yjm.value.lang.LibraryException;
+import yjm.value.util.DefaultObservable;
+import yjm.value.util.Observable;
+import yjm.value.util.Observer;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -15,7 +18,7 @@ import java.util.Locale;
  *
  */
 
-public class Date implements Comparable<Date>, Serializable , Cloneable{
+public class Date implements Observable,Comparable<Date>, Serializable , Cloneable{
 
     private static final long serialVersionUID = -7150540867519744332L;
 
@@ -820,6 +823,44 @@ public class Date implements Comparable<Date>, Serializable , Cloneable{
         return this.serialNumber;
     }
 
+
+
+    private final Observable delegatedObservable = new DefaultObservable(this);
+    @Override
+    public void addObserver(Observer observer) {
+        delegatedObservable.addObserver(observer);
+    }
+
+    @Override
+    public int countObservers() {
+        return 0;
+    }
+
+    @Override
+    public List<Observer> getObservers() {
+        return null;
+    }
+
+    @Override
+    public void deleteObserver(Observer observer) {
+
+    }
+
+    @Override
+    public void deleteObservers() {
+
+    }
+
+    @Override
+    public void notifyObservers() {
+
+    }
+
+    @Override
+    public void notifyObservers(Object arg) {
+
+    }
+
     /**
      * @Author  Jiaming Yan
      * @Description 将Date类的对象变为util.Date类对象，通过toString()方法输出如下日期格式：September 18, 2009
@@ -964,5 +1005,27 @@ public class Date implements Comparable<Date>, Serializable , Cloneable{
     public static final Date maxDate() {return new Date(maximumSerialNumber());}
 
     public static final Date minDate() {return new Date(minimumSerialNumber());}
+
+
+    /**
+     * @Author  Jiaming Yan
+     * @Description 返回当日SerialNumber
+     */
+    protected final long todaysSerialNumber() {
+        final java.util.Calendar cal = java.util.Calendar.getInstance();
+        final int d = cal.get(java.util.Calendar.DAY_OF_MONTH);
+        final int m = cal.get(java.util.Calendar.MONTH);
+        final int y = cal.get(java.util.Calendar.YEAR);
+        return fromDMY(d, m+1, y);
+    }
+
+    /**
+     * @Author  Jiaming Yan
+     * @Description SerialNumber赋值
+     */
+    protected final Date assign(final long serialNumber) {
+        this.serialNumber = serialNumber;
+        return this;
+    }
 
 }

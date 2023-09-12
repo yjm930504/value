@@ -1,6 +1,6 @@
 package yjm.value.lang;
 
-import yjm.value.ValueValidate;
+import yjm.value.QL;
 
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -9,22 +9,22 @@ public class LibraryException extends RuntimeException{
 
     public LibraryException() {
         super("LibraryException Created");
-        ValueValidate.error(this);
+        QL.error(this);
     }
 
     public LibraryException(final String message) {
         super(message);
-        ValueValidate.error(this);
+        QL.error(this);
     }
 
     public LibraryException(final String message, final Throwable cause) {
         super(message, cause);
-        ValueValidate.error(this);
+        QL.error(this);
     }
 
     public LibraryException(final Throwable cause) {
         super(cause);
-        ValueValidate.error(this);
+        QL.error(this);
     }
 
     public synchronized Throwable fillInStackTrace() {

@@ -1,5 +1,5 @@
 package yjm.value.time;
-import yjm.value.ValueValidate;
+import yjm.value.QL;
 import yjm.value.time.calendars.china;
 import yjm.value.time.calendars.nullcalendar;
 import yjm.value.lang.LibraryException;
@@ -117,9 +117,9 @@ public class Schedule {
             this.nextToLastDate_ = nextToLastDate;
         }
 
-        ValueValidate.require(effectiveDate != null && !effectiveDate.isNull(), "起息日不能为空");
-        ValueValidate.require(terminationDate != null && !terminationDate.isNull(), "到期日不能为空");
-        ValueValidate.require(effectiveDate.lt(terminationDate),
+        QL.require(effectiveDate != null && !effectiveDate.isNull(), "起息日不能为空");
+        QL.require(terminationDate != null && !terminationDate.isNull(), "到期日不能为空");
+        QL.require(effectiveDate.lt(terminationDate),
                 "起息日(" + effectiveDate
                         + ")在到期日("
                         + terminationDate + ")后");
@@ -127,14 +127,14 @@ public class Schedule {
         if (tenor.length() == 0) {
             rule_ = DateGeneration.Rule.Zero;
         } else {
-            ValueValidate.require(tenor.length() > 0,
+            QL.require(tenor.length() > 0,
                     "计息周期的长度(" + tenor + ")不能为负");
 
             if (firstDate != null && !firstDate.isNull()) {
                 switch (rule_) {
                     case Backward:
                     case Forward:
-                        ValueValidate.require(firstDate.gt(effectiveDate) &&
+                        QL.require(firstDate.gt(effectiveDate) &&
                                         firstDate.lt(terminationDate),
                                 "firstDate_(" + firstDate +
                                         ") 在[起息日(" + effectiveDate +
@@ -156,7 +156,7 @@ public class Schedule {
                 switch (rule_) {
                     case Backward:
                     case Forward:
-                        ValueValidate.require(nextToLastDate.gt(effectiveDate) &&
+                        QL.require(nextToLastDate.gt(effectiveDate) &&
                                         nextToLastDate.lt(terminationDate),
                                 "nextToLastDate_(" + nextToLastDate +
                                         ")在[起息日(" + effectiveDate +
@@ -223,7 +223,7 @@ public class Schedule {
                     }
                     break;
                 case ThirdWednesday:
-                    ValueValidate.require(!endOfMonth,
+                    QL.require(!endOfMonth,
                             "endOfMonth与" + rule_ +
                                     "的计息区间调整规则不兼容");
                 case Forward:
@@ -350,8 +350,8 @@ public class Schedule {
      * @description:
      */
     public boolean isRegular(final int i) {
-        ValueValidate.require(fullInterface_, "full interface not available");
-        ValueValidate.require(i<=isRegular_.size() && i>0,
+        QL.require(fullInterface_, "full interface not available");
+        QL.require(i<=isRegular_.size() && i>0,
                 "index (" + i + ") must be in [1, " +
                         isRegular_.size() +"]");
         return isRegular_.get(i-1);
@@ -394,7 +394,7 @@ public class Schedule {
      * @description: 返回schedule的tenor_(计息周期)
      */
     public final Period tenor() {
-        ValueValidate.require(fullInterface_, "full interface not available");
+        QL.require(fullInterface_, "full interface not available");
         return tenor_;
     }
 
@@ -411,7 +411,7 @@ public class Schedule {
      * @description: 返回schedule的结束日的工作日调整规则
      */
     public BusinessDayConvention terminationDateBusinessDayConvention() {
-        ValueValidate.require(fullInterface_, "full interface not available"); // TODO: message
+        QL.require(fullInterface_, "full interface not available"); // TODO: message
         return terminationDateConvention_;
     }
 
@@ -420,7 +420,7 @@ public class Schedule {
      * @description: 返回schedule的计息区间生成规则
      */
     public DateGeneration.Rule rule() /* @ReadOnly */ {
-        ValueValidate.require(fullInterface_, "full interface not available"); // TODO: message
+        QL.require(fullInterface_, "full interface not available"); // TODO: message
         return rule_;
     }
 
@@ -429,7 +429,7 @@ public class Schedule {
      * @description: 返回schedule的endOfMonth_
      */
     public boolean endOfMonth() {
-        ValueValidate.require(fullInterface_, "full interface not available"); // TODO: message
+        QL.require(fullInterface_, "full interface not available"); // TODO: message
         return endOfMonth_;
     }
 

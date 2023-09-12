@@ -1,6 +1,6 @@
 package yjm.value.math.matrixutilities;
 
-import yjm.value.ValueValidate;
+import yjm.value.QL;
 import yjm.value.lang.LibraryException;
 
 
@@ -36,7 +36,7 @@ public class CholeskyDecomposition {
      */
     public CholeskyDecomposition(final Matrix A) {
 
-        ValueValidate.require(A.rows() == A.cols(), Matrix.MATRIX_MUST_BE_SQUARE);
+        QL.require(A.rows() == A.cols(), Matrix.MATRIX_MUST_BE_SQUARE);
 
         this.n = A.rows();
         this.L = new Matrix(n, n);
@@ -75,7 +75,7 @@ public class CholeskyDecomposition {
      * @Description Solve A*X = B
      */
     public Matrix solve(final Matrix B) {
-        ValueValidate.require(B.rows() == this.n, Matrix.MATRIX_IS_INCOMPATIBLE); // QA:[RG]::verified
+        QL.require(B.rows() == this.n, Matrix.MATRIX_IS_INCOMPATIBLE); // QA:[RG]::verified
         if (!this.isSPD())
             throw new LibraryException(MATRIX_IS_NOT_SIMMETRIC_POSITIVE);
 

@@ -1,6 +1,6 @@
 package yjm.value.cashflow;
 
-import yjm.value.ValueValidate;
+import yjm.value.QL;
 
 import java.util.ArrayList;
 
@@ -31,7 +31,7 @@ public class Leg extends ArrayList<Cashflow> implements Cloneable {
      * @Description 返回leg的第一个Cashflow
      */
     public Cashflow first() {
-        ValueValidate.require(this.size() > 0 , "无现金流");
+        QL.require(this.size() > 0 , "无现金流");
         return this.get(0);
     }
 
@@ -40,7 +40,7 @@ public class Leg extends ArrayList<Cashflow> implements Cloneable {
      * @Description 返回leg的最后一个Cashflow
      */
     public Cashflow last() {
-        ValueValidate.require(this.size() > 0 , "无现金流");
+        QL.require(this.size() > 0 , "无现金流");
         return this.get(this.size()-1);
     }
 

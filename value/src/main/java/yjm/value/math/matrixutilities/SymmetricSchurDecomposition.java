@@ -1,6 +1,6 @@
 package yjm.value.math.matrixutilities;
 
-import yjm.value.ValueValidate;
+import yjm.value.QL;
 
 /**
  * @Author  Jiaming Yan
@@ -15,7 +15,7 @@ public class SymmetricSchurDecomposition {
     private final Array diag;
 
     public SymmetricSchurDecomposition(final Matrix m) {
-        ValueValidate.require(m.rows() == m.cols(), Matrix.MATRIX_MUST_BE_SQUARE);
+        QL.require(m.rows() == m.cols(), Matrix.MATRIX_MUST_BE_SQUARE);
 
         this.size = m.rows();
         this.A = new Matrix(m.rows(), m.cols(), m.flags());
@@ -110,7 +110,7 @@ public class SymmetricSchurDecomposition {
             }
         } while (++ite <= maxIterations && keeplooping);
 
-        ValueValidate.ensure(ite <= maxIterations, "迭代次数过多");
+        QL.ensure(ite <= maxIterations, "迭代次数过多");
     }
 
     /**

@@ -1,6 +1,6 @@
 package yjm.value.math.matrixutilities;
 
-import yjm.value.ValueValidate;
+import yjm.value.QL;
 import yjm.value.math.Ops;
 import yjm.value.math.functions.LessThanPredicate;
 import yjm.value.math.matrixutilities.internal.Address;
@@ -232,7 +232,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
      * @Description 减法
      */
     public Array subAssign(final Array another) {
-        ValueValidate.require(this.size() == another.size(), ARRAY_IS_INCOMPATIBLE);
+        QL.require(this.size() == another.size(), ARRAY_IS_INCOMPATIBLE);
         final Address.ArrayAddress.ArrayOffset toff = this.addr.offset();
         final Address.ArrayAddress.ArrayOffset aoff = another.addr.offset();
         for (int i=0; i<size(); i++) {
@@ -276,7 +276,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
      * @Description 加法
      */
     public Array addAssign(final Array another) {
-        ValueValidate.require(this.size() == another.size(), ARRAY_IS_INCOMPATIBLE); //
+        QL.require(this.size() == another.size(), ARRAY_IS_INCOMPATIBLE); //
         final Address.ArrayAddress.ArrayOffset toff = this.addr.offset();
         final Address.ArrayAddress.ArrayOffset aoff = another.addr.offset();
         for (int i=0; i<size(); i++) {
@@ -293,7 +293,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
      */
     @Override
     public Array mulAssign(final Array another) {
-        ValueValidate.require(this.size() == another.size(), ARRAY_IS_INCOMPATIBLE); // QA:[RG]::verified
+        QL.require(this.size() == another.size(), ARRAY_IS_INCOMPATIBLE); // QA:[RG]::verified
         final Address.ArrayAddress.ArrayOffset toff = this.addr.offset();
         final Address.ArrayAddress.ArrayOffset aoff = another.addr.offset();
         for (int i=0; i<size(); i++) {
@@ -310,7 +310,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
      */
     @Override
     public Array divAssign(final Array another) {
-        ValueValidate.require(this.size() == another.size(), ARRAY_IS_INCOMPATIBLE); // QA:[RG]::verified
+        QL.require(this.size() == another.size(), ARRAY_IS_INCOMPATIBLE); // QA:[RG]::verified
         final Address.ArrayAddress.ArrayOffset toff = this.addr.offset();
         final Address.ArrayAddress.ArrayOffset aoff = another.addr.offset();
         for (int i=0; i<size(); i++) {
@@ -396,7 +396,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
      */
     @Override
     public Array add(final Array another) {
-        ValueValidate.require(this.size() == another.size(), MATRIX_IS_INCOMPATIBLE);
+        QL.require(this.size() == another.size(), MATRIX_IS_INCOMPATIBLE);
         final Array result = new Array(this.size());
         final Address.ArrayAddress.ArrayOffset toff = this.addr.offset();
         final Address.ArrayAddress.ArrayOffset aoff = another.addr.offset();
@@ -413,7 +413,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
      * @Description 减法，生成新对象
      */
     public Array sub(final Array another) {
-        ValueValidate.require(this.size() == another.size(), MATRIX_IS_INCOMPATIBLE);
+        QL.require(this.size() == another.size(), MATRIX_IS_INCOMPATIBLE);
         final Array result = new Array(this.size());
         final Address.ArrayAddress.ArrayOffset toff = this.addr.offset();
         final Address.ArrayAddress.ArrayOffset aoff = another.addr.offset();
@@ -431,7 +431,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
      */
     @Override
     public Array mul(final Array another) {
-        ValueValidate.require(this.size() == another.size(), MATRIX_IS_INCOMPATIBLE);
+        QL.require(this.size() == another.size(), MATRIX_IS_INCOMPATIBLE);
         final Array result = new Array(this.size());
         final Address.ArrayAddress.ArrayOffset toff = this.addr.offset();
         final Address.ArrayAddress.ArrayOffset aoff = another.addr.offset();
@@ -449,7 +449,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
      */
     @Override
     public Array div(final Array another) {
-        ValueValidate.require(this.size() == another.size(), MATRIX_IS_INCOMPATIBLE);
+        QL.require(this.size() == another.size(), MATRIX_IS_INCOMPATIBLE);
         final Array result = new Array(this.size());
         final Address.ArrayAddress.ArrayOffset toff = this.addr.offset();
         final Address.ArrayAddress.ArrayOffset aoff = another.addr.offset();
@@ -467,7 +467,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
      */
     @Override
     public Array mul(final Matrix matrix) {
-        ValueValidate.require(this.size() == matrix.rows(), MATRIX_IS_INCOMPATIBLE);
+        QL.require(this.size() == matrix.rows(), MATRIX_IS_INCOMPATIBLE);
         final Array result = new Array(matrix.cols());
         final Address.ArrayAddress.ArrayOffset  toff = this.addr.offset();
         final Address.MatrixAddress.MatrixOffset moff = matrix.addr.offset();
@@ -504,7 +504,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
      */
     @Override
     public double min(final int from, final int to) {
-        ValueValidate.require(from >= 0 && to > from && to <= size(),  INVALID_ARGUMENTS);
+        QL.require(from >= 0 && to > from && to <= size(),  INVALID_ARGUMENTS);
         final int offset = addr.isFortran() ? 1 : 0;
         final Address.ArrayAddress.ArrayOffset src = this.addr.offset(from + offset);
         double result = $[src.op()];
@@ -533,7 +533,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
      */
     @Override
     public double max(final int from, final int to) {
-        ValueValidate.require(from >= 0 && to > from && to <= size(),  INVALID_ARGUMENTS); // QA:[RG]::verified
+        QL.require(from >= 0 && to > from && to <= size(),  INVALID_ARGUMENTS); // QA:[RG]::verified
         final int offset = addr.isFortran() ? 1 : 0;
         final Address.ArrayAddress.ArrayOffset src = this.addr.offset(from+offset);
         double result = $[src.op()];
@@ -641,7 +641,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
     @Override
     public double dotProduct(final Array another, final int from, final int to) {
         final int offset = another.addr.isFortran() ? 1 : 0;
-        ValueValidate.require(from >= offset && to >= from && to <= another.size()+offset, INVALID_ARGUMENTS);
+        QL.require(from >= offset && to >= from && to <= another.size()+offset, INVALID_ARGUMENTS);
         final Address.ArrayAddress.ArrayOffset toff = this.addr.offset();
         final Address.ArrayAddress.ArrayOffset aoff = another.addr.offset(from);
         double sum = 0.0;
@@ -692,7 +692,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
     @Override
     public Matrix outerProduct(final Array another, final int from, final int to) {
         final int offset = another.addr.isFortran() ? 1 : 0;
-        ValueValidate.require(from >= offset && to >= from && to <= another.size()+offset, INVALID_ARGUMENTS);
+        QL.require(from >= offset && to >= from && to <= another.size()+offset, INVALID_ARGUMENTS);
         final Matrix result = new Matrix(this.size(), to - from);
         final Address.ArrayAddress.ArrayOffset toff = this.addr.offset();
         int addr = 0;
@@ -732,7 +732,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
      */
     @Override
     public double accumulate(final int first, final int last, final double init) {
-        ValueValidate.require(first>=0 && last>first && last<=size(),  INVALID_ARGUMENTS);
+        QL.require(first>=0 && last>first && last<=size(),  INVALID_ARGUMENTS);
         double sum = init;
         final Address.ArrayAddress.ArrayOffset src = this.addr.offset(first);
         for (int i=0; i<last-first; i++) {
@@ -760,7 +760,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
     @Override
     public final Array adjacentDifference(final int from, final int to) {
         final int offset = addr.isFortran() ? 1 : 0;
-        ValueValidate.require(from >= offset && to >= from && to <= this.size()+offset, INVALID_ARGUMENTS);
+        QL.require(from >= offset && to >= from && to <= this.size()+offset, INVALID_ARGUMENTS);
         final Address.ArrayAddress.ArrayOffset toff = this.addr.offset(from);
         final Array diff = new Array(to-from, this.flags());
         double prev = this.$[toff.op()];
@@ -792,7 +792,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
     @Override
     public Array adjacentDifference(final int from, final int to, final Ops.BinaryDoubleOp f) {
         final int offset = addr.isFortran() ? 1 : 0;
-        ValueValidate.require(from >= offset && to >= from && to <= this.size()+offset, INVALID_ARGUMENTS);
+        QL.require(from >= offset && to >= from && to <= this.size()+offset, INVALID_ARGUMENTS);
         final Address.ArrayAddress.ArrayOffset toff = this.addr.offset(from);
         final Array diff = new Array(to-from, this.flags());
         double prev = this.$[toff.op()];
@@ -824,7 +824,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
     @Override
     public Array transform(final int from, final int to, final Ops.DoubleOp f) {
         final int offset = addr.isFortran() ? 1 : 0;
-        ValueValidate.require(from >= offset && to >= from && to <= this.size()+offset && f!=null, INVALID_ARGUMENTS);
+        QL.require(from >= offset && to >= from && to <= this.size()+offset && f!=null, INVALID_ARGUMENTS);
         for (int i=from; i<to; i++) {
             final int idx = this.index(i);
             this.$[idx] = f.op(this.$[idx]);
@@ -868,7 +868,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
     @Override
     public int lowerBound(int from, final int to, final double val, final Ops.BinaryDoublePredicate f) {
         final int offset = addr.isFortran() ? 1 : 0;
-        ValueValidate.require(from>=offset && from<=to && to<=size()+offset, INVALID_ARGUMENTS);
+        QL.require(from>=offset && from<=to && to<=size()+offset, INVALID_ARGUMENTS);
         int len = to - from;
         while (len > 0) {
             final int half = len >> 1;
@@ -919,7 +919,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
     @Override
     public int upperBound(int from, final int to, final double val, final Ops.BinaryDoublePredicate f) {
         final int offset = addr.isFortran() ? 1 : 0;
-        ValueValidate.require(from>=offset && from<=to && to<=size()+offset, INVALID_ARGUMENTS);
+        QL.require(from>=offset && from<=to && to<=size()+offset, INVALID_ARGUMENTS);
         int len = to - from;
         while (len > 0) {
             final int half = len >> 1;
@@ -948,7 +948,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
      */
     public Array range(final int col0, final int col1) {
         final int offset = addr.isFortran() ? 1 : 0;
-        ValueValidate.require(col0 >= offset && col0 < cols()+offset && col1 >= offset && col1 <= cols()+offset, Address.INVALID_COLUMN_INDEX);
+        QL.require(col0 >= offset && col0 < cols()+offset && col1 >= offset && col1 <= cols()+offset, Address.INVALID_COLUMN_INDEX);
         return new Range(offset, this.addr, $, col0, col1, rows(), cols());
     }
 
@@ -977,7 +977,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
      * @Description
      */
     public Array fill(final double scalar) {
-        ValueValidate.require(addr.isContiguous(), NON_CONTIGUOUS_DATA);
+        QL.require(addr.isContiguous(), NON_CONTIGUOUS_DATA);
         final int offset = addr.isFortran() ? 1 : 0;
         Arrays.fill($, begin()-offset, end()-offset, scalar);
         return this;
@@ -988,9 +988,9 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
      * @Description
      */
     public Array fill(final Array another) {
-        ValueValidate.require(addr.isContiguous(), NON_CONTIGUOUS_DATA);
-        ValueValidate.require(another.addr.isContiguous(), NON_CONTIGUOUS_DATA);
-        ValueValidate.require(this.rows()==another.rows() && this.cols()==another.cols() && this.size()==another.size(), WRONG_BUFFER_LENGTH);
+        QL.require(addr.isContiguous(), NON_CONTIGUOUS_DATA);
+        QL.require(another.addr.isContiguous(), NON_CONTIGUOUS_DATA);
+        QL.require(this.rows()==another.rows() && this.cols()==another.cols() && this.size()==another.size(), WRONG_BUFFER_LENGTH);
         final int offsetT = this.addr.isFortran() ? 1 : 0;
         final int offsetA = another.addr.isFortran() ? 1 : 0;
         System.arraycopy(another.$, another.begin()-offsetA, this.$, this.begin()-offsetT, another.size());
@@ -1002,9 +1002,9 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
      * @Description 交换
      */
     public Array swap(final Array another) {
-        ValueValidate.require(addr.isContiguous(), NON_CONTIGUOUS_DATA);
-        ValueValidate.require(another.addr.isContiguous(), NON_CONTIGUOUS_DATA);
-        ValueValidate.require(this.rows()==another.rows() && this.cols()==another.cols() && this.size()==another.size(), WRONG_BUFFER_LENGTH);
+        QL.require(addr.isContiguous(), NON_CONTIGUOUS_DATA);
+        QL.require(another.addr.isContiguous(), NON_CONTIGUOUS_DATA);
+        QL.require(this.rows()==another.rows() && this.cols()==another.cols() && this.size()==another.size(), WRONG_BUFFER_LENGTH);
         final double [] tdata;
         final Address.ArrayAddress taddr;
         tdata = this.$;  this.$ = another.$;  another.$ = tdata;
@@ -1017,7 +1017,7 @@ public class Array extends Cells<Address.ArrayAddress> implements Cloneable, Ite
      * @Description 排序
      */
     public Array sort() {
-        ValueValidate.require(addr.isContiguous(), NON_CONTIGUOUS_DATA);
+        QL.require(addr.isContiguous(), NON_CONTIGUOUS_DATA);
         final int offset = addr.isFortran() ? 1 : 0;
         Arrays.sort($, begin() - offset, end() - offset);
         return this;
