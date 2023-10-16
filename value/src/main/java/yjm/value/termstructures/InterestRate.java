@@ -1,6 +1,6 @@
 package yjm.value.termstructures;
 
-import yjm.value.daycounters.daycounter;
+import yjm.value.daycounters.DayCounter;
 import yjm.value.lang.LibraryException;
 import yjm.value.time.Date;
 import yjm.value.time.Frequency;
@@ -9,7 +9,7 @@ import yjm.value.QL;
 public class InterestRate {
 
     private final double rate;
-    private daycounter dc;
+    private DayCounter dc;
     private Compounding compound;
     private boolean freqMakesSense;
     //复利频率，以数字表示，365代表每日
@@ -27,7 +27,7 @@ public class InterestRate {
      * @Author  Jiaming Yan
      * @Description 构造函数，默认复利方式为连续复利
      */
-    public InterestRate(final double r, final daycounter dc) {
+    public InterestRate(final double r, final DayCounter dc) {
         this(r, dc, Compounding.Continuous);
     }
 
@@ -35,7 +35,7 @@ public class InterestRate {
      * @Author  Jiaming Yan
      * @Description 构造函数，默认计息频率为每年
      */
-    public InterestRate(final double r, final daycounter dc, final Compounding comp) {
+    public InterestRate(final double r, final DayCounter dc, final Compounding comp) {
         this(r, dc, comp, Frequency.Annual);
     }
 
@@ -43,7 +43,7 @@ public class InterestRate {
      * @Author  Jiaming Yan
      * @Description 构造函数
      */
-    public InterestRate(final double r, final daycounter dc, final Compounding comp, final Frequency freq) {
+    public InterestRate(final double r, final DayCounter dc, final Compounding comp, final Frequency freq) {
 
         this.rate = r;
         this.dc = dc;
@@ -103,7 +103,7 @@ public class InterestRate {
         return compoundFactor(t);
     }
 
-    public final daycounter dayCounter() {
+    public final DayCounter dayCounter() {
         return this.dc;
     }
 
@@ -165,7 +165,7 @@ public class InterestRate {
     public final InterestRate equivalentRate(
             final Date d1,
             final Date d2,
-            final daycounter resultDC,
+            final DayCounter resultDC,
             final Compounding comp,
             final Frequency freq) {
         QL.require(d1.lt(d2) , "开始日期不可晚于结束日期");
@@ -184,7 +184,7 @@ public class InterestRate {
      * @Description 传入复利因子，返回不同日算惯例和计息频率的利率对象
      */
     static public InterestRate impliedRate(final double c, final double time,
-                                           final daycounter resultDC, final Compounding comp, final Frequency freq) {
+                                           final DayCounter resultDC, final Compounding comp, final Frequency freq) {
 
         final double t = time;
         final double f = freq.toInteger();
@@ -222,7 +222,7 @@ public class InterestRate {
      * @Description 传入复利因子，返回不同日算惯例和计息频率的利率对象
      */
     public static InterestRate impliedRate(final double compound, final double t,
-                                           final daycounter resultDC, final Compounding comp) {
+                                           final DayCounter resultDC, final Compounding comp) {
         return impliedRate(compound, t, resultDC, comp, Frequency.Annual);
     }
 
@@ -231,7 +231,7 @@ public class InterestRate {
      * @Description 传入复利因子，返回不同日算惯例和计息频率的利率对象
      */
     public static InterestRate impliedRate(final double compound, final Date d1, final Date d2,
-                                           final daycounter resultDC, final Compounding comp) {
+                                           final DayCounter resultDC, final Compounding comp) {
         return impliedRate(compound, d1, d2, resultDC, comp, Frequency.Annual);
     }
 
@@ -240,7 +240,7 @@ public class InterestRate {
      * @Description 传入复利因子，返回不同日算惯例和计息频率的利率对象
      */
     public static InterestRate impliedRate(final double compound, final Date d1, final Date d2,
-                                           final daycounter resultDC, final Compounding comp, final Frequency freq) {
+                                           final DayCounter resultDC, final Compounding comp, final Frequency freq) {
         QL.require(d1.le(d2) , "计算隐含利率时，起始日期应该不晚于结束日期");
         final double t = resultDC.yearFraction(d1, d2);
         return impliedRate(compound, t, resultDC, comp, freq);

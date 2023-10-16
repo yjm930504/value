@@ -1,8 +1,12 @@
 package yjm.value.cashflow;
 
-import yjm.value.daycounters.daycounter;
+import yjm.value.daycounters.DayCounter;
 import yjm.value.time.Date;
 
+
+/**
+ * Coupon类
+ */
 public abstract class Coupon extends CashFlow {
 
     protected double nominal;
@@ -45,7 +49,7 @@ public abstract class Coupon extends CashFlow {
 
     public abstract double rate();
 
-    public abstract daycounter dayCounter();
+    public abstract DayCounter dayCounter();
 
     public abstract double accruedAmount(final Date date);
 

@@ -13,9 +13,7 @@ import java.util.Locale;
 
 
 /**
- * @arthur Jiaming Yan
- * @description 日期类，serialNumber表示日期到1900年1月1日的天数
- *
+ * 日期类，serialNumber表示日期到1900年1月1日的天数
  */
 
 public class Date implements Observable,Comparable<Date>, Serializable , Cloneable{
@@ -43,8 +41,7 @@ public class Date implements Observable,Comparable<Date>, Serializable , Cloneab
     };
 
     /**
-     * @arthur Jiaming Yan
-     * @description 从1990年开始，每年12月31日的累计天数。例如：yearOffset[2]表示1901年的12月31日距离1900年1月1日有731天
+     * 从1990年开始，每年12月31日的累计天数。例如：yearOffset[2]表示1901年的12月31日距离1900年1月1日有731天
      */
     private static final int[] yearOffset = {
             // 1900-1909
@@ -112,8 +109,7 @@ public class Date implements Observable,Comparable<Date>, Serializable , Cloneab
     };
 
     /**
-     * @arthur Jiaming Yan
-     * @description 从1900年开始，判断是否为闰年。例：yearIsLeap[4]表示1904年为闰年。
+     * 从1900年开始，判断是否为闰年。例：yearIsLeap[4]表示1904年为闰年。
      */
     private static final boolean[] yearIsLeap = {
             // 1900-1909
@@ -183,47 +179,43 @@ public class Date implements Observable,Comparable<Date>, Serializable , Cloneab
     private long serialNumber;
 
     /**
-     * @Author  Jiaming Yan
-     * @Description 空构造函数，设置Date的serialNumber为0
+     * 构造函数，设置Date的serialNumber为0
      */
     public Date() {
         this(0);
     }
 
     /**
-     * @Author  Jiaming Yan
-     * @Description 传入serialNumber的构造函数
+     * 构造函数，传入serialNumber
+     * @param serialNumber
      */
     public Date(final long serialNumber) {
         this.serialNumber = serialNumber;
     }
 
     /**
-     * @Author  Jiaming Yan
-     * @Description 传入年月日，返回serialNumber
-     * @param day 天数，int
-     * @param month 月份，month类
-     * @param year 年，int
+     * 构造函数，传入年月日
+     * @param day
+     * @param month
+     * @param year
      */
     public Date(final int day, final Month month, final int year) {
         this(fromDMY(day, month.value(), year));
     }
 
     /**
-     * @Author  Jiaming Yan
-     * @Description 传入年月日，返回serialNumber
-     * @param day 日，int
-     * @param month 月，int
-     * @param year 年，int
+     * 构造函数，传入年月日
+     * @param day
+     * @param month
+     * @param year
      */
     public Date(final int day, final int month, final int year) {
         this(fromDMY(day, month, year));
     }
 
     /**
-     * @Author  Jiaming Yan
-     * @Description 将JAVA的Date类对象转换为Date类
-     * @param date JAVA的Date类对象
+     * 将JAVA的Date类对象转换Date类
+     * @param date
      */
     public Date(final java.util.Date date) {
         final Calendar c = Calendar.getInstance();
@@ -235,9 +227,7 @@ public class Date implements Observable,Comparable<Date>, Serializable , Cloneab
     }
 
     /**
-     * @Author  Jiaming Yan
-     * @Description 取当天日期
-     * @return 当天日期的Date类对象
+     * 返回当天日期
      */
     public static final Date todaysDate() {
         final java.util.Calendar cal = java.util.Calendar.getInstance();
@@ -249,10 +239,8 @@ public class Date implements Observable,Comparable<Date>, Serializable , Cloneab
 
 
     /**
-     * @Author  Jiaming Yan
-     * @Description 输入年度，判断是否为闰年
-     * @param year 年，int
-     * @return 闰年为true，非闰年为false
+     * 判断是否为闰年
+     * @param year
      */
     public static final boolean isLeap(final int year) {
         return yearIsLeap[year - 1900];

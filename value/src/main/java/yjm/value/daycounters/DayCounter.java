@@ -8,7 +8,7 @@ import yjm.value.time.Date;
  *
  **/
 
-public class daycounter {
+public class DayCounter {
 
     protected daycountImplement daycountImplement;
 

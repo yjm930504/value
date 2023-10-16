@@ -2,13 +2,13 @@ package yjm.value.daycounters;
 
 import yjm.value.time.Date;
 
-public class ActualActual extends daycounter {
+public class ActualActual extends DayCounter {
 
     public ActualActual(){
         super.daycountImplement = new daycountImplement();
     }
 
-    private final class daycountImplement extends daycounter.daycountImplement{
+    private final class daycountImplement extends DayCounter.daycountImplement{
 
         @Override
         public String name() {
