@@ -8,10 +8,14 @@ import java.util.Set;
 
 /**
  * @Author  Jiaming Yan
- * @Description
+ * @Description DirectArrayRowAddress类
  */
 public class DirectArrayRowAddress extends DirectAddress implements Address.ArrayAddress{
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 构造函数
+     */
     public DirectArrayRowAddress(
             final double[] data,
             final int row,
@@ -25,12 +29,20 @@ public class DirectArrayRowAddress extends DirectAddress implements Address.Arra
         super(data, row, row+1, chain, col0, col1, flags, contiguous, rows, cols);
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 若不是Fortan连续，返回一个Fortan连续的对象
+     */
     @Override
     public ArrayAddress toFortran() {
         return isFortran() ? this :
                 new DirectArrayRowAddress(data, row0, this.chain, col0, col1, EnumSet.of(Address.Flags.FORTRAN), contiguous, rows, cols);
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 若是Fortan连续，返回不是Fortan连续的对象
+     */
     @Override
     public ArrayAddress toJava() {
         return isFortran() ?
@@ -38,6 +50,10 @@ public class DirectArrayRowAddress extends DirectAddress implements Address.Arra
                 : this;
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description
+     */
     @Override
     public ArrayOffset offset() {
         return new DirectArrayRowAddressOffset(offset, offset);
@@ -50,7 +66,7 @@ public class DirectArrayRowAddress extends DirectAddress implements Address.Arra
 
     @Override
     public int op(final int index) {
-        return (row0+offset)*cols + (col0+index);
+        return (row0 + offset) * cols + (col0 + index);
     }
 
 
@@ -66,19 +82,26 @@ public class DirectArrayRowAddress extends DirectAddress implements Address.Arra
     private class DirectArrayRowAddressOffset extends DirectAddressOffset implements Address.ArrayAddress.ArrayOffset {
 
         public DirectArrayRowAddressOffset(final int row, final int col) {
-            super.row = row0+row;
-            super.col = col0+col;
+            super.row = row0 + row;
+            super.col = col0 + col;
         }
+
+        // implements Offset
 
         @Override
         public int op() {
-            return row*cols + col;
+            return row * cols + col;
         }
+
+        // implements ArrayOffset
 
         @Override
         public void setIndex(final int index) {
-            super.col = col0+index;
+            super.col = col0 + index;
         }
+
+
+        // implements ListIterator
 
         @Override
         public void add(final Double e) {

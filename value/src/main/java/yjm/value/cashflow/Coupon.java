@@ -3,7 +3,7 @@ package yjm.value.cashflow;
 import yjm.value.daycounters.daycounter;
 import yjm.value.time.Date;
 
-public abstract class Coupon extends Cashflow {
+public abstract class Coupon extends CashFlow {
 
     protected double nominal;
     protected Date paymentDate_;

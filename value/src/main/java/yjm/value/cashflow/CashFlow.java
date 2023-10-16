@@ -7,7 +7,7 @@ import yjm.value.time.Date;
  * @Description 现金流抽象类
  */
 
-public abstract class Cashflow implements Comparable<Cashflow>{
+public abstract class CashFlow extends Event implements Comparable<CashFlow>{
 
     /**
      * @Author  Jiaming Yan
@@ -26,7 +26,7 @@ public abstract class Cashflow implements Comparable<Cashflow>{
      * @Author  Jiaming Yan
      * @Description 比较现金流
      */
-    public int compareTo(final Cashflow c2) {
+    public int compareTo(final CashFlow c2) {
         //先比较日期，日期在前返回-1
         if (date().lt(c2.date())) {
             return -1;

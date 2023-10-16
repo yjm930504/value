@@ -50,21 +50,26 @@ public interface Address {
 
     /**
      * @Author  Jiaming Yan
-     * @Description
+     * @Description 判断C连续
      */
     public boolean isContiguous();
+
+    /**
+     * @Author  Jiaming Yan
+     * @Description 判断Fortan连续
+     */
     public boolean isFortran();
 
     /**
      * @Author  Jiaming Yan
-     * @Description
+     * @Description Flag
      */
     public Set<Address.Flags> flags();
 
     public enum Flags {FORTRAN,}
     /**
      * @Author  Jiaming Yan
-     * @Description 迭代器生成接口
+     * @Description
      */
     public interface Offset {
         public abstract int op();

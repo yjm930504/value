@@ -6,12 +6,20 @@ import java.util.EnumSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-
+/**
+ * @Author  Jiaming Yan
+ * @Description DirectArrayColAddress类
+ */
 public class DirectArrayColAddress extends DirectAddress implements Address.ArrayAddress{
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 构造函数
+     */
     public DirectArrayColAddress(
             final double[] data,
-            final int row0, final int row1,
+            final int row0,
+            final int row1,
             final Address chain,
             final int col,
             final Set<Flags> flags,
@@ -20,6 +28,12 @@ public class DirectArrayColAddress extends DirectAddress implements Address.Arra
         super(data, row0, row1, chain, col, col+1, flags, contiguous, rows, cols);
     }
 
+    // implements ArrayAddress
+
+    /**
+     * @Author  Jiaming Yan
+     * @Description 若不是Fortan连续，返回一个Fortan连续的对象
+     */
     @Override
     public ArrayAddress toFortran() {
         return isFortran()
@@ -27,6 +41,10 @@ public class DirectArrayColAddress extends DirectAddress implements Address.Arra
                 : new DirectArrayColAddress(data, row0, row1, this.chain, col0, EnumSet.of(Address.Flags.FORTRAN), contiguous, rows, cols);
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 若是Fortan连续，返回不是Fortan连续的对象
+     */
     @Override
     public ArrayAddress toJava() {
         return isFortran()
@@ -46,9 +64,11 @@ public class DirectArrayColAddress extends DirectAddress implements Address.Arra
 
     @Override
     public int op(final int index) {
-        return (row0+index)*cols + (col0+offset);
+        return (row0 + index) * cols + (col0 + offset);
     }
 
+
+    // implements Cloneable
     @Override
     public DirectArrayColAddress clone() {
         try {
@@ -71,7 +91,7 @@ public class DirectArrayColAddress extends DirectAddress implements Address.Arra
 
         @Override
         public void setIndex(final int index) {
-            super.row = row0+index;
+            super.row = row0 + index;
         }
 
         @Override
@@ -108,21 +128,21 @@ public class DirectArrayColAddress extends DirectAddress implements Address.Arra
         public Double next() {
             final int idx = op();
             nextIndex();
-            if (idx>=row1) throw new NoSuchElementException();
+            if (idx >= row1) throw new NoSuchElementException();
             return data[idx];
         }
 
         @Override
         public Double previous() {
             final int idx = previousIndex();
-            if (idx==-1) throw new NoSuchElementException();
+            if (idx == -1) throw new NoSuchElementException();
             return data[op()];
         }
 
         @Override
         public void set(final Double e) {
             final int idx = op();
-            if ((idx==-1)||(idx==rows)) throw new IllegalStateException();
+            if ((idx == -1)||(idx == rows)) throw new IllegalStateException();
             data[idx] = e;
         }
 

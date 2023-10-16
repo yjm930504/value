@@ -15,25 +15,80 @@ public abstract class DirectAddress implements Address, Cloneable{
 
     /**
      * @Author  Jiaming Yan
-     * @Description
+     * @Description 存储数据
      */
     protected final double[] data;
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description
+     */
     protected final int row0;
+
+    /**
+     * @Author  Jiaming Yan
+     * @Description
+     */
     protected final int row1;
+
+    /**
+     * @Author  Jiaming Yan
+     * @Description
+     */
     protected final Address chain;
+
+    /**
+     * @Author  Jiaming Yan
+     * @Description
+     */
     protected final int col0;
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description
+     */
     protected final int col1;
+
+    /**
+     * @Author  Jiaming Yan
+     * @Description flags
+     */
     protected final Set<Address.Flags> flags;
+
+    /**
+     * @Author  Jiaming Yan
+     * @Description 是否C连续
+     */
     protected final boolean contiguous;
-    //行数
+
+    /**
+     * @Author  Jiaming Yan
+     * @Description 行数
+     */
     protected final int rows;
-    //列数
+
+    /**
+     * @Author  Jiaming Yan
+     * @Description 列数
+     */
     protected final int cols;
-    //偏移
+
+    /**
+     * @Author  Jiaming Yan
+     * @Description 偏移,Fortan连续为1，否则为0
+     */
     protected final int offset;
+
+    /**
+     * @Author  Jiaming Yan
+     * @Description
+     */
     private final int base;
+
+    /**
+     * @Author  Jiaming Yan
+     * @Description
+     */
     private final int last;
 
 
@@ -46,49 +101,73 @@ public abstract class DirectAddress implements Address, Cloneable{
             final int row0,
             final int row1,
             final Address chain,
-            final int col0, final int col1,
+            final int col0,
+            final int col1,
             final Set<Address.Flags> flags,
             final boolean contiguous,
-            final int rows, final int cols) {
+            final int rows,
+            final int cols) {
         this.data = data;
         this.chain  = chain;
         this.contiguous = contiguous;
         this.flags  = (flags != null) ? flags : (chain != null) ? chain.flags() : EnumSet.noneOf(Address.Flags.class);
         this.offset = isFortran() ? 1 : 0;
-        this.row0 = row0 - offset + ( chain==null ? 0 : chain.row0() );
-        this.col0 = col0 - offset + ( chain==null ? 0 : chain.col0() );
-        this.row1 = this.row0 + (row1-row0);
-        this.col1 = this.col0 + (col1-col0);
+        this.row0 = row0 - offset + ( chain == null ? 0 : chain.row0() );
+        this.col0 = col0 - offset + ( chain == null ? 0 : chain.col0() );
+        this.row1 = this.row0 + (row1 - row0);
+        this.col1 = this.col0 + (col1 - col0);
         this.rows = (chain==null) ? rows : chain.rows();
         this.cols = (chain==null) ? cols : chain.cols();
-        this.base = (row0-offset)*cols + (col0-offset);
-        this.last = (row1-offset-1)*cols + (col1-offset-1);
+        this.base = (row0 - offset) * cols + (col0 - offset);
+        this.last = (row1 - offset -1) * cols + (col1 - offset - 1);
     }
 
+
+    /**
+     * @Author  Jiaming Yan
+     * @Description 判断C连续
+     */
     @Override
     public boolean isContiguous() {
         return contiguous;
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 判断Fortan连续
+     */
     @Override
     public boolean isFortran() {
         return flags.contains(Address.Flags.FORTRAN);
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 返回flags
+     */
     @Override
     public Set<Address.Flags> flags() {
         return flags;
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 返回行数
+     */
     @Override
     public int rows() {
         return rows;
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description 返回列数
+     */
     @Override
     public int cols() {
         return cols;
     }
+
 
     @Override
     public int row0() {
@@ -132,6 +211,10 @@ public abstract class DirectAddress implements Address, Cloneable{
         }
     }
 
+    /**
+     * @Author  Jiaming Yan
+     * @Description DirectAddressOffset抽象类
+     */
     protected abstract class DirectAddressOffset implements Address.Offset {
         protected int row;
         protected int col;

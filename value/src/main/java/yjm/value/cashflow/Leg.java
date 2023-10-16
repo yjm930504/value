@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * @author Jiaming Yan
  * @description: Leg类
  */
-public class Leg extends ArrayList<Cashflow> implements Cloneable {
+public class Leg extends ArrayList<CashFlow> implements Cloneable {
 
     /**
      * @author Jiaming Yan
@@ -30,7 +30,7 @@ public class Leg extends ArrayList<Cashflow> implements Cloneable {
      * @Author  Jiaming Yan
      * @Description 返回leg的第一个Cashflow
      */
-    public Cashflow first() {
+    public CashFlow first() {
         QL.require(this.size() > 0 , "无现金流");
         return this.get(0);
     }
@@ -39,7 +39,7 @@ public class Leg extends ArrayList<Cashflow> implements Cloneable {
      * @Author  Jiaming Yan
      * @Description 返回leg的最后一个Cashflow
      */
-    public Cashflow last() {
+    public CashFlow last() {
         QL.require(this.size() > 0 , "无现金流");
         return this.get(this.size()-1);
     }
