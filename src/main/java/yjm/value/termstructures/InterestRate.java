@@ -281,5 +281,8 @@ public class InterestRate {
         return sb.toString();
     }
 
+    public final double rate() {
+        return rate;
+    }
 
 }

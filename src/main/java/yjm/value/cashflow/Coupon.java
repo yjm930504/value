@@ -2,6 +2,8 @@ package yjm.value.cashflow;
 
 import yjm.value.daycounters.DayCounter;
 import yjm.value.time.Date;
+import yjm.value.util.PolymorphicVisitor;
+import yjm.value.util.Visitor;
 
 
 /**
@@ -9,10 +11,27 @@ import yjm.value.time.Date;
  */
 public abstract class Coupon extends CashFlow {
 
+    /**
+     * 名义本金
+     */
     protected double nominal;
+
+    /**
+     * 支付日期
+     */
     protected Date paymentDate_;
+
+    /**
+     * 起息日
+     */
     protected Date accrualStartDate_;
+
+    /**
+     * 到期日
+     */
     protected Date accrualEndDate_;
+
+
     protected Date refPeriodStart_;
     protected Date refPeriodEnd_;
 
@@ -100,6 +119,16 @@ public abstract class Coupon extends CashFlow {
      */
     public Date date() {
         return paymentDate_.clone();
+    }
+
+    @Override
+    public void accept(final PolymorphicVisitor pv) {
+        final Visitor<Coupon> v = (pv!=null) ? pv.visitor(this.getClass()) : null;
+        if (v != null) {
+            v.visit(this);
+        } else {
+            super.accept(pv);
+        }
     }
 
 

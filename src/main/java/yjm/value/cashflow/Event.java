@@ -1,11 +1,12 @@
 package yjm.value.cashflow;
 
 
+import yjm.value.lang.LibraryException;
 import yjm.value.time.Date;
-import yjm.value.util.DefaultObservable;
-import yjm.value.util.Observable;
-import yjm.value.util.PolymorphicVisitable;
+import yjm.value.util.*;
 import yjm.value.Settings;
+
+import java.util.List;
 
 /**
  * @Author  Jiaming Yan
@@ -37,8 +38,52 @@ public abstract class Event implements Observable, PolymorphicVisitable {
         }
     }
 
-    // implements Observable
     private final DefaultObservable delegatedObservable = new DefaultObservable(this);
+
+    @Override
+    public void addObserver(final Observer observer) {
+        delegatedObservable.addObserver(observer);
+    }
+
+    @Override
+    public int countObservers() {
+        return delegatedObservable.countObservers();
+    }
+
+    @Override
+    public void deleteObserver(final Observer observer) {
+        delegatedObservable.deleteObserver(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        delegatedObservable.notifyObservers();
+    }
+
+    @Override
+    public void notifyObservers(final Object arg) {
+        delegatedObservable.notifyObservers(arg);
+    }
+
+    @Override
+    public void deleteObservers() {
+        delegatedObservable.deleteObservers();
+    }
+
+    @Override
+    public List<Observer> getObservers() {
+        return delegatedObservable.getObservers();
+    }
+
+    @Override
+    public void accept(final PolymorphicVisitor pv) {
+        final Visitor<Event> v = (pv!=null) ? pv.visitor(this.getClass()) : null;
+        if (v != null) {
+            v.visit(this);
+        } else {
+            throw new LibraryException("null event visitor");
+        }
+    }
 
 
 

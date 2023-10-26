@@ -1,6 +1,8 @@
 package yjm.value.cashflow;
 
 import yjm.value.time.Date;
+import yjm.value.util.PolymorphicVisitor;
+import yjm.value.util.Visitor;
 
 /**
  * @Author  Jiaming Yan
@@ -44,6 +46,16 @@ public abstract class CashFlow extends Event implements Comparable<CashFlow>{
         }
 
         return 1;
+    }
+
+    @Override
+    public void accept(final PolymorphicVisitor pv) {
+        final Visitor<CashFlow> v = (pv!=null) ? pv.visitor(this.getClass()) : null;
+        if (v != null) {
+            v.visit(this);
+        } else {
+            super.accept(pv);
+        }
     }
 
 }

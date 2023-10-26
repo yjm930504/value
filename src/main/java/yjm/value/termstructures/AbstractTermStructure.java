@@ -6,7 +6,6 @@ import yjm.value.daycounters.Actual365Fixed;
 import yjm.value.daycounters.DayCounter;
 import yjm.value.math.Closeness;
 import yjm.value.math.interpolations.DefaultExtrapolator;
-import yjm.value.math.interpolations.Extrapolator;
 import yjm.value.time.Calendar;
 import yjm.value.time.Date;
 import yjm.value.time.TimeUnit;
@@ -17,7 +16,20 @@ import java.util.List;
 
 
 /**
- * 期限结机构抽象类
+ * 期限结构抽象类
+ * <p>Case 1: The constructor taking a date is to be used.
+ * The default implementation of {@link TermStructure#referenceDate()} will
+ * then return such date.
+ *
+ * <p>Case 2: The constructor taking a number of days and a calendar is to be used
+ * so that {@link TermStructure#referenceDate()} will return a date calculated based on the
+ * current evaluation date and the term structure and observers will be notified when the
+ * evaluation date changes.
+ *
+ * <p>Case 3: The {@link TermStructure#referenceDate()} method must
+ * be overridden in derived classes so that it fetches and
+ * return the appropriate date.
+ *
  */
 public abstract class AbstractTermStructure implements TermStructure {
 
@@ -35,20 +47,18 @@ public abstract class AbstractTermStructure implements TermStructure {
 
     protected Calendar calendar;
 
+    /**
+     * 构造方法，默认Actual365Fixed
+     */
     public AbstractTermStructure() {
         this(new Actual365Fixed());
     }
 
     /**
-     * <p>This constructor requires an override of method {@link TermStructure#referenceDate()} in
-     * derived classes so that it fetches and return the appropriate reference date.
-     * This is the <i>Case 3</i> described on the top of this class.
-     *
-     * @see TermStructure documentation for more details about constructors.
+     * 构造方法
      */
-    //TODO : What's the calendar in this case?
     public AbstractTermStructure(final DayCounter dc) {
-        QL.require(dc!=null , "day counter must be informed"); // TODO: message
+        QL.require(dc!=null , "日算惯例不能为空");
         this.calendar = null;
         this.settlementDays = 0;
         this.dayCounter = dc;
@@ -57,38 +67,23 @@ public abstract class AbstractTermStructure implements TermStructure {
         this.moving = false;
         this.updated = true;
 
-        // initialize reference date without any observers
         this.referenceDate = null;
     }
 
     /**
-     * Initialize with a fixed reference date
-     *
-     * <p>This constructor takes a date to be used.
-     * The default implementation of {@link TermStructure#referenceDate()} will
-     * then return such date.
-     * This is the <i>Case 1</i> described on the top of this class.
-     *
-     * @see TermStructure documentation for more details about constructors.
+     * 构造方法
      */
     public AbstractTermStructure(final Date referenceDate, final Calendar calendar) {
         this(referenceDate, calendar, new Actual365Fixed());
     }
 
     /**
-     * Initialize with a fixed reference date
-     *
-     * <p>This constructor takes a date to be used.
-     * The default implementation of {@link TermStructure#referenceDate()} will
-     * then return such date.
-     * This is the <i>Case 1</i> described on the top of this class.
-     *
-     * @see TermStructure documentation for more details about constructors.
+     * 构造方法
      */
     public AbstractTermStructure(final Date referenceDate, final Calendar calendar, final DayCounter dc) {
-        QL.require(referenceDate!=null , "reference date must be informed"); // TODO: message
-        QL.require(calendar!=null , "calendar must be informed"); // TODO: message
-        QL.require(dc!=null , "day counter must be informed"); // TODO: message
+        QL.require(referenceDate!=null , "基准日期不能为空");
+        QL.require(calendar!=null , "日历不能为空");
+        QL.require(dc!=null , "日算惯例不能为空");
 
         this.settlementDays = 0;
         this.calendar = calendar;
@@ -98,36 +93,18 @@ public abstract class AbstractTermStructure implements TermStructure {
         this.moving = false;
         this.updated = true;
 
-        // initialize reference date with this class as observer
         this.referenceDate = referenceDate;
     }
 
     /**
-     * Calculate the reference date based on the global evaluation date
-     *
-     * <p>This constructor takes a number of days and a calendar to be used
-     * so that {@link TermStructure#referenceDate()} will return a date calculated based on the
-     * current evaluation date and the term structure. This class will be notified when the
-     * evaluation date changes.
-     * This is the <i>Case 2</i> described on the top of this class.
-     *
-     * @see TermStructure documentation for more details about constructors.
+     * 构造方法
      */
     public AbstractTermStructure(final int settlementDays, final Calendar calendar) {
         this(settlementDays, calendar, new Actual365Fixed());
     }
 
-
     /**
-     * Calculate the reference date based on the global evaluation date
-     *
-     * <p>This constructor takes a number of days and a calendar to be used
-     * so that {@link TermStructure#referenceDate()} will return a date calculated based on the
-     * current evaluation date and the term structure. This class will be notified when the
-     * evaluation date changes.
-     * This is the <i>Case 2</i> described on the top of this class.
-     *
-     * @see TermStructure documentation for more details about constructors.
+     * 构造方法
      */
     public AbstractTermStructure(final int settlementDays, final Calendar calendar, final DayCounter dc) {
         this.settlementDays = settlementDays;
@@ -145,78 +122,51 @@ public abstract class AbstractTermStructure implements TermStructure {
         this.referenceDate = calendar.advance(today, settlementDays, TimeUnit.Days);
     }
 
-
-    //
-    // protected methods
-    //
-
     /**
-     * This method performs date-range check
+     * 校验日期范围
      */
-    protected void checkRange(final Date d, final boolean extrapolate) /* @ReadOnly */ {
-        QL.require(d.ge(referenceDate()) , "date before reference date"); // TODO: message
-        QL.require(extrapolate || allowsExtrapolation() || d.le(maxDate()) , "date is past max curve"); // TODO: message
+    protected void checkRange(final Date d, final boolean extrapolate){
+        QL.require(d.ge(referenceDate()) , "日期应在基准日期之前");
+        QL.require(extrapolate || allowsExtrapolation() || d.le(maxDate()) , "日期超过最大日期");
     }
 
     /**
-     * This method performs date-range check
+     * 校验日期范围
      */
-    protected void checkRange(/*@Time*/ final double t, final boolean extrapolate) /* @ReadOnly */ {
-        QL.require(t >= 0.0 , "negative time given"); // TODO: message
-        QL.require(extrapolate||allowsExtrapolation()||t<=maxTime()||Closeness.isCloseEnough(t, maxTime()) , "time is past max curve"); // TODO: message
+    protected void checkRange(final double t, final boolean extrapolate){
+        QL.require(t >= 0.0 , "年化时间为负");
+        QL.require(extrapolate||allowsExtrapolation()||t<=maxTime()||Closeness.isCloseEnough(t, maxTime()) ,
+                "time is past max curve");
     }
 
-
-    //
-    // implements TermStructure
-    //
-
-    /* (non-Javadoc)
-     * @see yjm.value.termstructures.TermStructure#calendar()
-     */
     @Override
-    public Calendar calendar() /* @ReadOnly */ {
-        QL.require(this.calendar != null , THIS_METHOD_MUST_BE_OVERRIDDEN); // TODO: message
+    public Calendar calendar(){
+        QL.require(this.calendar != null , THIS_METHOD_MUST_BE_OVERRIDDEN);
         return calendar;
     }
-
-    /* (non-Javadoc)
-     * @see yjm.value.termstructures.TermStructure#settlementDays()
-     */
-    public /*@Natural*/ int settlementDays() /* @ReadOnly */ {
+    
+    public int settlementDays(){
         return settlementDays;
     }
 
-    /* (non-Javadoc)
-     * @see yjm.value.termstructures.TermStructure#timeFromReference(yjm.value.util.Date)
-     */
     @Override
-    public final /*@Time*/ double timeFromReference(final Date date) /* @ReadOnly */ {
+    public final double timeFromReference(final Date date){
         return dayCounter().yearFraction(referenceDate(), date);
     }
 
-    /* (non-Javadoc)
-     * @see yjm.value.termstructures.TermStructure#dayCounter()
-     */
     @Override
-    public DayCounter dayCounter() /* @ReadOnly */ {
-        QL.require(this.dayCounter != null , THIS_METHOD_MUST_BE_OVERRIDDEN); // TODO: message
+    public DayCounter dayCounter(){
+        QL.require(this.dayCounter != null , THIS_METHOD_MUST_BE_OVERRIDDEN);
         return dayCounter;
     }
 
-    /* (non-Javadoc)
-     * @see yjm.value.termstructures.TermStructure#maxTime()
-     */
     @Override
-    public /*@Time*/ double maxTime() /* @ReadOnly */ {
+    public double maxTime(){
         return timeFromReference(maxDate());
     }
 
-    /* (non-Javadoc)
-     * @see yjm.value.termstructures.TermStructure#referenceDate()
-     */
     @Override
-    public Date referenceDate() /* @ReadOnly */ {
+    public Date referenceDate(){
         if (!updated) {
         	final Date today = new Settings().evaluationDate();
         	referenceDate = calendar().advance(today, settlementDays, TimeUnit.Days);
@@ -225,21 +175,8 @@ public abstract class AbstractTermStructure implements TermStructure {
         return referenceDate;
     }
 
-
-    //
-    // implements Extrapolator
-    //
-
-    /**
-     * Implements multiple inheritance via delegate pattern to a inner class
-     *
-     * @see Extrapolator
-     */
     private final DefaultExtrapolator delegatedExtrapolator = new DefaultExtrapolator();
 
-    /**
-     * @return
-     */
     @Override
     public final boolean allowsExtrapolation() {
         return delegatedExtrapolator.allowsExtrapolation();
@@ -255,24 +192,7 @@ public abstract class AbstractTermStructure implements TermStructure {
         delegatedExtrapolator.enableExtrapolation();
     }
 
-
-    //
-    // implements Observer
-    //
-
-    //XXX:registerWith
-    //    @Override
-    //    public void registerWith(final Observable o) {
-    //        o.addObserver(this);
-    //    }
-    //
-    //    @Override
-    //    public void unregisterWith(final Observable o) {
-    //        o.deleteObserver(this);
-    //    }
-
     @Override
-    //XXX::OBS public void update(final Observable o, final Object arg) {
     public void update() {
         if (moving) {
             updated = false;
@@ -280,17 +200,6 @@ public abstract class AbstractTermStructure implements TermStructure {
         notifyObservers();
     }
 
-
-    //
-    // implements Observable
-    //
-
-    /**
-     * Implements multiple inheritance via delegate pattern to an inner class
-     *
-     * @see Observable
-     * @see DefaultObservable
-     */
     private final Observable delegatedObservable = new DefaultObservable(this);
 
     @Override
