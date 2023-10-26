@@ -1,4 +1,4 @@
-package yjm.value.util;
+package yjm.value;
 
 import yjm.value.time.Date;
 

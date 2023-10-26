@@ -2,7 +2,6 @@ package yjm.value.util;
 
 
 /**
- * @Author  Jiaming Yan
  * @Description
  */
 public interface PolymorphicVisitable {

@@ -2,9 +2,9 @@ package yjm.value.daycounters;
 
 import yjm.value.time.Date;
 
-public class Actual365F extends DayCounter {
+public class Actual365Fixed extends DayCounter {
 
-    public Actual365F() {
+    public Actual365Fixed() {
         super.daycountImplement = new daycountImplement();
     }
 

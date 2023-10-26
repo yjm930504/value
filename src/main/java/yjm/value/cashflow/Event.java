@@ -5,7 +5,7 @@ import yjm.value.time.Date;
 import yjm.value.util.DefaultObservable;
 import yjm.value.util.Observable;
 import yjm.value.util.PolymorphicVisitable;
-import yjm.value.util.Settings;
+import yjm.value.Settings;
 
 /**
  * @Author  Jiaming Yan

@@ -3,6 +3,8 @@ package yjm.value.cashflow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import yjm.value.QL;
+import yjm.value.quotes.Handle;
+import yjm.value.termstructures.YieldTermStructure;
 import yjm.value.time.Date;
 
 /**
@@ -30,7 +32,6 @@ public class CashFlows {
 
     /**
      * 返回CashFlows实例
-     * @return 现金流实例
      */
     public static CashFlows getInstance() {
         if (instance == null) {
@@ -44,9 +45,7 @@ public class CashFlows {
     }
 
     /**
-     *
-     * @param cashflows
-     * @return 现金流起息日
+     * 返回现金流起息日
      */
     public Date startDate(final Leg cashflows) {
         Date d = Date.maxDate();
@@ -61,9 +60,7 @@ public class CashFlows {
     }
 
     /**
-     *
-     * @param cashflows
-     * @return 现金流到期
+     * 返回现金流到期日
      */
     public Date maturityDate(final Leg cashflows) {
         Date d = Date.minDate();
@@ -75,12 +72,7 @@ public class CashFlows {
     }
 
     /**
-     *
-     * @param cashflows
-     * @param discountCurve
-     * @param settlementDate
-     * @param npvDate
-     * @return npv
+     * 计算npv
      */
     public double npv(
             final Leg cashflows,
@@ -88,5 +80,33 @@ public class CashFlows {
             final Date settlementDate,
             final Date npvDate) {
         return npv(cashflows, discountCurve, settlementDate, npvDate, 0);
+    }
+
+    /**
+     * 计算npv
+     */
+    public double npv(
+            final Leg cashflows,
+            final Handle<YieldTermStructure> discountCurve,
+            final Date settlementDate,
+            final Date npvDate,
+            final int exDividendDays) {
+
+        Date date = settlementDate;
+        if (date.isNull()) {
+            date = discountCurve.currentLink().referenceDate();
+        }
+
+        double totalNPV = 0.0;
+        for (int i = 0; i < cashflows.size(); ++i) {
+            if (!cashflows.get(i).hasOccurred(date.add(exDividendDays))) {
+                totalNPV += cashflows.get(i).amount() * discountCurve.currentLink().discount(cashflows.get(i).date());
+            }
+        }
+
+        if (npvDate.isNull())
+            return totalNPV;
+        else
+            return totalNPV / discountCurve.currentLink().discount(npvDate);
     }
 }
