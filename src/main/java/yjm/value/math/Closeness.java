@@ -27,29 +27,28 @@ import yjm.value.lang.annotation.NonNegative;
 /**
  * 检查浮点型的相等
  */
+public final class Closeness {
 
- public final class Closeness {
+    public static final boolean isClose(final double x, final double y) {
+        return isClose(x, y, 42);
+    }
 
-	static public final boolean isClose(final double x, final double y) {
-	    return isClose(x, y, 42);
-	}
-
-	static public final boolean isClose(final double x, final double y, @NonNegative final int n) {
-        final double diff = Math.abs(x-y);
+    public static final boolean isClose(final double x, final double y, @NonNegative final int n) {
+        final double diff = Math.abs(x - y);
         final double tolerance = n * Constants.QL_EPSILON;
-        return diff <= tolerance*Math.abs(x) &&
-               diff <= tolerance*Math.abs(y);
-	}
+        return diff <= tolerance * Math.abs(x) &&
+                diff <= tolerance * Math.abs(y);
+    }
 
-	static public final boolean isCloseEnough(final double x, final double y) {
-	    return isCloseEnough(x, y, 42);
-	}
+    public static final boolean isCloseEnough(final double x, final double y) {
+        return isCloseEnough(x, y, 42);
+    }
 
-	static public final boolean isCloseEnough(final double x, final double y, @NonNegative final int n) {
-        final double diff = Math.abs(x-y);
+    static public final boolean isCloseEnough(final double x, final double y, @NonNegative final int n) {
+        final double diff = Math.abs(x - y);
         final double tolerance = n * Constants.QL_EPSILON;
-        return diff <= tolerance*Math.abs(x) ||
-               diff <= tolerance*Math.abs(y);
-	}
+        return diff <= tolerance * Math.abs(x) ||
+                diff <= tolerance * Math.abs(y);
+    }
 
 }

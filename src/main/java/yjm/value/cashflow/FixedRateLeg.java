@@ -18,19 +18,19 @@ public class FixedRateLeg extends Leg {
     private DayCounter firstPeriodDayCounter_;
     private BusinessDayConvention paymentAdjustment_;
 
-    public FixedRateLeg(final Schedule schedule, final DayCounter paymentDayCounter){
-        this.schedule_=(schedule);
-        this.paymentDayCounter_=(paymentDayCounter);
+    public FixedRateLeg(final Schedule schedule, final DayCounter paymentDayCounter) {
+        this.schedule_ = (schedule);
+        this.paymentDayCounter_ = (paymentDayCounter);
         this.paymentAdjustment_ = BusinessDayConvention.Following;
     }
 
     public FixedRateLeg withNotionals(final double notional) {
-        this.notionals_ = new double[] {notional};
+        this.notionals_ = new double[]{notional};
         return this;
     }
 
     public FixedRateLeg withNotionals(final double[] notionals) {
-        this.notionals_ = notionals; 
+        this.notionals_ = notionals;
         return this;
     }
 
@@ -46,15 +46,15 @@ public class FixedRateLeg extends Leg {
         return this;
     }
 
-    public FixedRateLeg withCouponRates(final double [] couponRates) {
+    public FixedRateLeg withCouponRates(final double[] couponRates) {
         couponRates_ = new InterestRate[couponRates.length];
-        for (int i = 0; i<couponRates.length; i++) {
+        for (int i = 0; i < couponRates.length; i++) {
             couponRates_[i] = new InterestRate(couponRates[i], paymentDayCounter_, Compounding.Simple);
         }
         return this;
     }
 
-    public FixedRateLeg withCouponRates(final InterestRate [] couponRates) {
+    public FixedRateLeg withCouponRates(final InterestRate[] couponRates) {
         couponRates_ = couponRates;
         return this;
     }
@@ -75,8 +75,8 @@ public class FixedRateLeg extends Leg {
      */
     public Leg Leg() {
 
-        QL.require(couponRates_ != null && couponRates_.length>0 , "coupon rates not specified");
-        QL.require(notionals_   != null && notionals_.length>0 , "nominals not specified");
+        QL.require(couponRates_ != null && couponRates_.length > 0, "coupon rates not specified");
+        QL.require(notionals_ != null && notionals_.length > 0, "nominals not specified");
 
         final Leg leg = new Leg();
 
@@ -87,9 +87,9 @@ public class FixedRateLeg extends Leg {
         InterestRate rate = couponRates_[0];
         double nominal = notionals_[0];
 
-        // 第一期
+        // 第一期现金流
         if (schedule_.isRegular(1)) {
-            QL.require(firstPeriodDayCounter_==null || !firstPeriodDayCounter_.equals(paymentDayCounter_) , "regular first coupon does not allow a first-period day count");
+            QL.require(firstPeriodDayCounter_ == null || !firstPeriodDayCounter_.equals(paymentDayCounter_), "regular first coupon does not allow a first-period day count");
             leg.add(new FixedRateCoupon(nominal, paymentDate, rate, paymentDayCounter_, start, end, start, end));
         } else {
             Date ref = end.sub(schedule_.tenor());
@@ -98,7 +98,7 @@ public class FixedRateLeg extends Leg {
             leg.add(new FixedRateCoupon(nominal, paymentDate, rate, dc, start, end, ref, end));
         }
 
-        // 中间
+        // 中间现金流
         for (int i = 2; i < schedule_.size() - 1; ++i) {
             start = end;
             end = schedule_.date(i);
@@ -119,7 +119,7 @@ public class FixedRateLeg extends Leg {
             leg.add(new FixedRateCoupon(nominal, paymentDate, rate, paymentDayCounter_, start, end, start, end));
         }
 
-        // 最后一期
+        // 最后一期现金流
         if (schedule_.size() > 2) {
 
             final int N = schedule_.size();

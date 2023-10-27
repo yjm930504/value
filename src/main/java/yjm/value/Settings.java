@@ -1,7 +1,6 @@
 package yjm.value;
 
 import yjm.value.time.Date;
-
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -105,6 +104,9 @@ public class Settings {
             super();
         }
 
+        /**
+         * 默认返回当天日期
+         */
         private DateProxy value() {
             if (isNull()) {
                 super.assign(todaysSerialNumber());

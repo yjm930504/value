@@ -5,11 +5,11 @@ import yjm.value.time.Date;
 import yjm.value.time.Month;
 import yjm.value.time.Weekday;
 
-public class china extends Calendar {
+public class China extends Calendar {
 
     public static enum Market {SSE}
 
-    public china() {
+    public China() {
         this(Market.SSE);
     }
 
@@ -17,7 +17,7 @@ public class china extends Calendar {
      * @Author  Jiaming Yan
      * @Description 构造函数，SseImpl对象
      */
-    public china(final Market m) {
+    public China(final Market m) {
         switch (m) {
             case SSE:
                 impl = new SseImpl();

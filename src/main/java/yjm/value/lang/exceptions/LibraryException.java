@@ -1,4 +1,4 @@
-package yjm.value.lang;
+package yjm.value.lang.exceptions;
 
 import yjm.value.QL;
 

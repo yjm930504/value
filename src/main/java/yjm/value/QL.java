@@ -1,6 +1,6 @@
 package yjm.value;
 
-import yjm.value.lang.LibraryException;
+import yjm.value.lang.exceptions.LibraryException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

@@ -1,7 +1,7 @@
 package yjm.value.math.matrixutilities;
 
 import yjm.value.QL;
-import yjm.value.lang.LibraryException;
+import yjm.value.lang.exceptions.LibraryException;
 
 
 /**

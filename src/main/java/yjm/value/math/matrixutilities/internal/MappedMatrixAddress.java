@@ -1,6 +1,6 @@
 package yjm.value.math.matrixutilities.internal;
 
-import yjm.value.lang.LibraryException;
+import yjm.value.lang.exceptions.LibraryException;
 
 import java.util.EnumSet;
 import java.util.Set;

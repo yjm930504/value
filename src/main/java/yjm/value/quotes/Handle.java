@@ -6,7 +6,7 @@ import yjm.value.util.WeakReferenceObservable;
 import java.util.List;
 
 /**
- * 借助内部类 {@link Link} 同时扮演观察者和被观察对象的角色，也就是充当“传令官”
+ * 借助内部类 {@link Link} 同时扮演观察者和被观察对象的角色，充当“传令官”
  */
 public class Handle<T extends Observable> implements Observable {
 

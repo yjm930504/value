@@ -1,7 +1,7 @@
 package yjm.value.termstructures;
 
 import yjm.value.daycounters.DayCounter;
-import yjm.value.lang.LibraryException;
+import yjm.value.lang.exceptions.LibraryException;
 import yjm.value.time.Date;
 import yjm.value.time.Frequency;
 import yjm.value.QL;

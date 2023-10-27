@@ -1,6 +1,6 @@
 package yjm.value.time;
 
-import yjm.value.lang.LibraryException;
+import yjm.value.lang.exceptions.LibraryException;
 
 /**
  * @author Jiaming Yan

@@ -2,7 +2,7 @@ package yjm.value.math.matrixutilities;
 
 
 import yjm.value.math.matrixutilities.internal.Address;
-import yjm.value.lang.LibraryException;
+import yjm.value.lang.exceptions.LibraryException;
 
 import java.util.Set;
 

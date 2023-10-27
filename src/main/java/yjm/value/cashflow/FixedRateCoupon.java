@@ -32,6 +32,7 @@ import  yjm.value.util.PolymorphicVisitor;
 import  yjm.value.util.Visitor;
 
 
+
 public class FixedRateCoupon extends Coupon {
 
 	private final InterestRate rate;

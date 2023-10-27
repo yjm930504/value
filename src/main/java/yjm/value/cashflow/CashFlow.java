@@ -5,27 +5,27 @@ import yjm.value.util.PolymorphicVisitor;
 import yjm.value.util.Visitor;
 
 /**
- * @Author  Jiaming Yan
+ * @Author Jiaming Yan
  * @Description 现金流抽象类
  */
 
-public abstract class CashFlow extends Event implements Comparable<CashFlow>{
+public abstract class CashFlow extends Event implements Comparable<CashFlow> {
 
     /**
-     * @Author  Jiaming Yan
+     * @Author Jiaming Yan
      * @Description 抽象方法，返回现金流大小
      */
     public abstract double amount();
 
     /**
-     * @Author  Jiaming Yan
+     * @Author Jiaming Yan
      * @Description 抽象方法，返回现金流的日期
      */
     public abstract Date date();
 
 
     /**
-     * @Author  Jiaming Yan
+     * @Author Jiaming Yan
      * @Description 比较现金流
      */
     public int compareTo(final CashFlow c2) {
@@ -50,7 +50,7 @@ public abstract class CashFlow extends Event implements Comparable<CashFlow>{
 
     @Override
     public void accept(final PolymorphicVisitor pv) {
-        final Visitor<CashFlow> v = (pv!=null) ? pv.visitor(this.getClass()) : null;
+        final Visitor<CashFlow> v = (pv != null) ? pv.visitor(this.getClass()) : null;
         if (v != null) {
             v.visit(this);
         } else {

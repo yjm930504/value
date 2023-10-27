@@ -1,6 +1,6 @@
 package yjm.value.instruments;
 
-import yjm.value.lang.LibraryException;
+import yjm.value.lang.exceptions.LibraryException;
 import yjm.value.pricingengines.PricingEngine;
 import yjm.value.util.LazyObject;
 

@@ -1,7 +1,7 @@
 package yjm.value.math.matrixutilities;
 
 import yjm.value.QL;
-import yjm.value.lang.LibraryException;
+import yjm.value.lang.exceptions.LibraryException;
 
 public class LUDecomposition {
     private final static String MATRIX_IS_SINGULAR = "矩阵是奇异的";
