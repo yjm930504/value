@@ -3,7 +3,6 @@ package yjm.value.cashflow;
 import yjm.value.util.DefaultObservable;
 import yjm.value.util.Observable;
 import yjm.value.util.Observer;
-
 import java.util.List;
 
 public abstract class FloatingRateCouponPricer implements Observer, Observable {
@@ -18,16 +17,12 @@ public abstract class FloatingRateCouponPricer implements Observer, Observable {
     public abstract double floorletRate(double effectiveFloor);
     public abstract void initialize(FloatingRateCoupon coupon);
 
-
     @Override
     public void update() {
         notifyObservers();
     }
 
-
-    //
     // implements Observable
-    //
 
     @Override
     public void addObserver(final Observer observer) {

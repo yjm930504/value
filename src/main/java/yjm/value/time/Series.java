@@ -3,7 +3,7 @@ package yjm.value.time;
 import java.util.*;
 
 /**
- * 存储历史数据
+ * 存储历史数据, Key为日期，Value为数据
  */
 public class Series<K, V> implements NavigableMap<K, V> {
 
@@ -17,6 +17,8 @@ public class Series<K, V> implements NavigableMap<K, V> {
         this.classV = classV;
         this.delegate = new TreeMap<K, V>();
     }
+
+    // implement NavigableMap
 
     @Override
     public Entry<K, V> ceilingEntry(final K key) {

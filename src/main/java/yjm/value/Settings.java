@@ -6,13 +6,29 @@ import java.util.TreeMap;
 
 public class Settings {
 
+    /**
+     * 允许负利率
+     */
     private static final String NEGATIVE_RATES = "NEGATIVE_RATES";
 
+    /**
+     * 额外安全检查
+     */
     private static final String EXTRA_SAFETY_CHECKS = "EXTRA_SAFETY_CHECKS";
 
+    /**
+     * 当日的支付进入NPV计算
+     */
     private static final String TODAYS_PAYMENTS = "TODAYS_PAYMENTS";
 
+    /**
+     * 浮动leg使用基准利率的coupon
+     */
     private static final String USE_INDEXED_COUPON = "USE_INDEXED_COUPON";
+
+    /**
+     * 使用当天作为历史定盘利率
+     */
     private static final String ENFORCES_TODAYS_HISTORIC_FIXINGS = "ENFORCES_TODAYS_HISTORIC_FIXINGS";
     private static final String REFINE_TO_FULL_MACHINE_PRECISION_USING_HALLEYS_METHOD = "REFINE_TO_FULL_MACHINE_PRECISION_USING_HALLEYS_METHOD";
     private static final String EVALUATION_DATE = "EVALUATION_DATE";

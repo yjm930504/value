@@ -22,6 +22,10 @@ public class FloatingRateCoupon extends Coupon implements Observer {
     protected int fixingDays_;
     protected double gearing_;
     protected double spread_;
+
+    /**
+     * 是否期末定盘
+     */
     protected boolean isInArrears_;
     protected FloatingRateCouponPricer pricer_;
 
@@ -47,23 +51,29 @@ public class FloatingRateCoupon extends Coupon implements Observer {
         this.spread_ = spread;
         this.isInArrears_ = isInArrears;
 
-        QL.require(gearing != 0 , "Null gearing not allowed");
+        QL.require(gearing != 0, "gearing为空");
 
+        // 没有日算惯例，使用index的日算惯例
         if (dayCounter_.empty())
             dayCounter_ = index.dayCounter();
 
+        // 估值日
         Date evaluationDate = new Settings().evaluationDate();
         this.index_.addObserver(this);
         evaluationDate.addObserver(this);
     }
 
-    public void setPricer(final FloatingRateCouponPricer pricer){
+
+    /**
+     * 设置Pricer
+     */
+    public void setPricer(final FloatingRateCouponPricer pricer) {
         if (pricer_ != null) {
-        	pricer_.deleteObserver(this);
+            pricer_.deleteObserver(this);
         }
         pricer_ = pricer;
-        if ( pricer_ != null ) {
-        	pricer_.addObserver(this);
+        if (pricer_ != null) {
+            pricer_.addObserver(this);
         }
         update();
     }
@@ -72,23 +82,31 @@ public class FloatingRateCoupon extends Coupon implements Observer {
         return pricer_;
     }
 
+    /**
+     * 计算浮动利率Coupon金额
+     * <p>
+     * 本金 * 利率 * 计息区间的年化时间
+     */
     public double amount() {
         return rate() * accrualPeriod() * nominal();
     }
 
-    public  double accruedAmount(final Date d) {
+    /**
+     * 计算应计金额
+     */
+    public double accruedAmount(final Date d) {
 
         if (d.le(accrualStartDate_) || d.gt(paymentDate_)) {
             return 0.0;
         } else {
             return nominal() * rate() *
-                dayCounter().yearFraction(accrualStartDate_,
-                                          Date.min(d,accrualEndDate_),
-                                          refPeriodStart_,
-                                          refPeriodEnd_);
+                    dayCounter().yearFraction(accrualStartDate_, Date.min(d, accrualEndDate_), refPeriodStart_, refPeriodEnd_);
         }
     }
 
+    /**
+     * 计算coupon现值
+     */
     public double price(final Handle<YieldTermStructure> yts) {
         return amount() * yts.currentLink().discount(date());
     }
@@ -105,8 +123,10 @@ public class FloatingRateCoupon extends Coupon implements Observer {
         return fixingDays_;
     }
 
+    /**
+     * 计算定盘日
+     */
     public Date fixingDate() {
-        // if isInArrears_ fix at the end of period
         Date refDate = isInArrears_ ? accrualEndDate_ : accrualStartDate_;
         return index_.fixingCalendar().advance(refDate, new Period(-fixingDays_, TimeUnit.Days), BusinessDayConvention.Preceding);
     }
@@ -115,33 +135,46 @@ public class FloatingRateCoupon extends Coupon implements Observer {
     public double gearing() {
         return gearing_;
     }
+
     public double spread() {
         return spread_;
     }
 
-    public /*Rate*/ double indexFixing() {
+    /**
+     * 计算定盘利率
+     */
+    public double indexFixing() {
         return index_.fixing(fixingDate());
     }
 
-    public /*Rate*/ double rate() {
-        QL.require(pricer_ != null, "pricer not set");
+    public double rate() {
+        QL.require(pricer_ != null, "未设置Pricer");
         pricer_.initialize(this);
         return pricer_.swapletRate();
     }
 
-    public /*Rate*/ double adjustedFixing()  {
-        return (rate()-spread())/gearing();
+    /**
+     * 调整定盘利率
+     */
+    public double adjustedFixing() {
+        return (rate() - spread()) / gearing();
     }
 
     public boolean isInArrears() {
         return isInArrears_;
     }
 
-    public /*Rate*/ double convexityAdjustmentImpl(double /*Rate*/ f) {
-        return (gearing() == 0.0 ? 0.0 : adjustedFixing()-f);
+    /**
+     * 凸性调整
+     */
+    public double convexityAdjustmentImpl(double f) {
+        return (gearing() == 0.0 ? 0.0 : adjustedFixing() - f);
     }
 
-    public /*Rate*/ double convexityAdjustment() {
+    /**
+     *
+     */
+    public double convexityAdjustment() {
         return convexityAdjustmentImpl(indexFixing());
     }
 
@@ -149,13 +182,10 @@ public class FloatingRateCoupon extends Coupon implements Observer {
         notifyObservers();
     }
 
-    //
     // implements TypeVisitable
-    //
-
     @Override
     public void accept(final PolymorphicVisitor pv) {
-        final Visitor<FloatingRateCoupon> v = (pv!=null) ? pv.visitor(this.getClass()) : null;
+        final Visitor<FloatingRateCoupon> v = (pv != null) ? pv.visitor(this.getClass()) : null;
         if (v != null) {
             v.visit(this);
         } else {

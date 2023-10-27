@@ -38,6 +38,7 @@ public abstract class Event implements Observable, PolymorphicVisitable {
         }
     }
 
+    // implement Observable
     private final DefaultObservable delegatedObservable = new DefaultObservable(this);
 
     @Override
@@ -75,6 +76,7 @@ public abstract class Event implements Observable, PolymorphicVisitable {
         return delegatedObservable.getObservers();
     }
 
+    // implement PolymorphicVisitor
     @Override
     public void accept(final PolymorphicVisitor pv) {
         final Visitor<Event> v = (pv!=null) ? pv.visitor(this.getClass()) : null;

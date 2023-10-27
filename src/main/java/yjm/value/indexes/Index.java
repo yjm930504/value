@@ -37,9 +37,8 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * indexes
+ * 基准利率类
  */
-
 public abstract class Index implements Observable {
 
 	private final Observable delegatedObservable = new DefaultObservable(this);
