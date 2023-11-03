@@ -3,8 +3,7 @@ package yjm.value.daycounters;
 import yjm.value.time.Date;
 
 /**
- * @author Jiaming Yan
- * @description: 根据不同的日算惯例, daycount()返回两个日期间的天数, yearFraction()计算年化时间, name()返回日算惯例名称
+ * 日算惯例类，计算年化时间
  **/
 
 public class DayCounter {
