@@ -28,9 +28,6 @@ import  yjm.value.daycounters.DayCounter;
 import  yjm.value.termstructures.Compounding;
 import  yjm.value.termstructures.InterestRate;
 import  yjm.value.time.Date;
-import  yjm.value.util.PolymorphicVisitor;
-import  yjm.value.util.Visitor;
-
 
 
 public class FixedRateCoupon extends Coupon {
@@ -105,16 +102,6 @@ public class FixedRateCoupon extends Coupon {
 		return nominal()
 				* (rate.compoundFactor(accrualStartDate_, accrualEndDate_,
 						refPeriodStart_, refPeriodEnd_) - 1.0);
-	}
-
-	@Override
-	public void accept(final PolymorphicVisitor pv) {
-		final Visitor<FixedRateCoupon> v = (pv!=null) ? pv.visitor(this.getClass()) : null;
-        if (v != null) {
-            v.visit(this);
-        } else {
-            super.accept(pv);
-        }
 	}
 
 }

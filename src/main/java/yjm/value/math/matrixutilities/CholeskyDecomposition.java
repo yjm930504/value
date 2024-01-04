@@ -6,11 +6,11 @@ import yjm.value.lang.exceptions.LibraryException;
 
 /**
  * @Author  Jiaming Yan
- * @Description Cholesky分解，把对称正定的矩阵分解为下三角矩阵L和其转置的乘积
+ * @Description Cholesky分解，将对称正定的矩阵分解为下三角矩阵L和其转置的乘积
  */
 public class CholeskyDecomposition {
 
-    private final static String MATRIX_IS_NOT_SIMMETRIC_POSITIVE = "Matrix is not symmetric positive definite.";
+    private final static String MATRIX_IS_NOT_SIMMETRIC_POSITIVE = "矩阵不是对称且正定的";
 
     /**
      * @Author  Jiaming Yan
@@ -20,13 +20,13 @@ public class CholeskyDecomposition {
 
     /**
      * @Author  Jiaming Yan
-     * @Description 分解的矩阵
+     * @Description Cholesky分解的下三角矩阵L
      */
     private final Matrix L;
 
     /**
      * @Author  Jiaming Yan
-     * @Description 正定标记
+     * @Description 对称正定标记
      */
     private boolean isspd;
 

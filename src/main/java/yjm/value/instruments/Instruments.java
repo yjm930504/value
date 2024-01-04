@@ -2,13 +2,12 @@ package yjm.value.instruments;
 
 import yjm.value.lang.exceptions.LibraryException;
 import yjm.value.pricingengines.PricingEngine;
-import yjm.value.util.LazyObject;
 
 /**
  * @author Jiaming Yan
  * @description: 金融工具抽象类
  */
-public abstract class Instruments extends LazyObject {
+public abstract class Instruments {
 
     private static final String SHOULD_DEFINE_PRICING_ENGINE = "Should define pricing engine";
     private static final String SETUP_ARGUMENTS_NOT_IMPLEMENTED = "Instrument#setupArguments() not implemented";

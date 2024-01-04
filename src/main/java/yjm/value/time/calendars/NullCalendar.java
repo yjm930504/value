@@ -12,7 +12,7 @@ public class NullCalendar extends Calendar {
 
     private final class Impl extends Calendar.Impl {
         @Override
-        public String name(){return "Null";}
+        public String name(){return "NULL";}
 
         @Override
         public boolean isWeekend(final Weekday weekday){

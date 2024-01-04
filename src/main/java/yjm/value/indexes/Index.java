@@ -29,9 +29,6 @@ import yjm.value.math.Constants;
 import yjm.value.time.Calendar;
 import yjm.value.time.Date;
 import yjm.value.time.TimeSeries;
-import yjm.value.util.DefaultObservable;
-import yjm.value.util.Observable;
-import yjm.value.util.Observer;
 
 import java.util.Iterator;
 import java.util.List;
@@ -39,9 +36,7 @@ import java.util.List;
 /**
  * 基准利率类
  */
-public abstract class Index implements Observable {
-
-	private final Observable delegatedObservable = new DefaultObservable(this);
+public abstract class Index {
 
     /**
 	 * 返回index名称
@@ -162,40 +157,5 @@ public abstract class Index implements Observable {
 	public double fixing(final Date fixingDate){
         return fixing(fixingDate, false);
     }
-
-	@Override
-	public void addObserver(final Observer observer) {
-		delegatedObservable.addObserver(observer);
-	}
-
-    @Override
-	public int countObservers() {
-		return delegatedObservable.countObservers();
-	}
-
-    @Override
-	public void deleteObserver(final Observer observer) {
-		delegatedObservable.deleteObserver(observer);
-	}
-
-    @Override
-	public void notifyObservers() {
-		delegatedObservable.notifyObservers();
-	}
-
-    @Override
-	public void notifyObservers(final Object arg) {
-		delegatedObservable.notifyObservers(arg);
-	}
-
-    @Override
-	public void deleteObservers() {
-		delegatedObservable.deleteObservers();
-	}
-
-    @Override
-	public List<Observer> getObservers() {
-		return delegatedObservable.getObservers();
-	}
 
 }

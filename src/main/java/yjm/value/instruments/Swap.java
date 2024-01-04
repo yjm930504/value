@@ -23,13 +23,9 @@ public class Swap extends Instruments {
 
     /**
      * @Author Jiaming Yan
-     * @Description 构造方法，传入leg
+     * @Description 构造方法
      */
     public Swap(final Leg firstLeg, final Leg secondLeg) {
-
-        if (System.getProperty("EXPERIMENTAL") == null) {
-            throw new UnsupportedOperationException("Work in progress");
-        }
 
         this.legs = new ArrayList<Leg>();
         this.payer = new double[2];
@@ -40,22 +36,13 @@ public class Swap extends Instruments {
         payer[0] = -1.0; // 支付
         payer[1] = +1.0; // 收取
 
-        for (int i = 0; i < legs.size(); i++) {
-            for (final CashFlow item : legs.get(i)) {
-                item.addObserver(this);
-            }
-        }
     }
 
     /**
      * @Author Jiaming Yan
-     * @Description 构造方法，传入legs及支付端标记
+     * @Description 构造方法
      */
     public Swap(final List<Leg> legs, final boolean[] payer) {
-
-        if (System.getProperty("EXPERIMENTAL") == null) {
-            throw new UnsupportedOperationException("Work in progress");
-        }
 
         this.legs = legs;
         this.payer = new double[legs.size()];
@@ -67,13 +54,8 @@ public class Swap extends Instruments {
             if (payer[j]) {
                 this.payer[j] = -1.0;
             }
-
-            for (int i = 0; i < legs.size(); i++) {
-                for (final CashFlow item : legs.get(i)) {
-                    item.addObserver(this);
-                }
-            }
         }
+
     }
 
     /**
@@ -82,14 +64,11 @@ public class Swap extends Instruments {
      */
     protected Swap(final int legs) {
 
-        if (System.getProperty("EXPERIMENTAL") == null) {
-            throw new UnsupportedOperationException("Work in progress");
-        }
-
         this.legs = new ArrayList<Leg>();
         this.payer = new double[legs];
         this.legNPV = new double[legs];
         this.legBPS = new double[legs];
+
     }
 
 
@@ -113,9 +92,4 @@ public class Swap extends Instruments {
         return false;
     }
 
-    // implements LazyObject
-    @Override
-    protected void performCalculations() throws ArithmeticException {
-
-    }
 }

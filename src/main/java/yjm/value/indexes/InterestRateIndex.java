@@ -27,19 +27,16 @@ import yjm.value.Settings;
 import yjm.value.currencies.Currency;
 import yjm.value.daycounters.DayCounter;
 import yjm.value.math.Constants;
-import yjm.value.quotes.Handle;
-import yjm.value.termstructures.YieldTermStructure;
 import yjm.value.time.Calendar;
 import yjm.value.time.Date;
 import yjm.value.time.Period;
 import yjm.value.time.TimeUnit;
-import yjm.value.util.Observer;
 
 
 /**
  * 利率指标类，提供计算定盘利率
  */
-public abstract class InterestRateIndex extends Index implements Observer {
+public abstract class InterestRateIndex extends Index  {
 
     protected String familyName;
     protected Period tenor;
@@ -62,8 +59,6 @@ public abstract class InterestRateIndex extends Index implements Observer {
         this.dayCounter = dayCounter;
         this.tenor.normalize();
 
-        new Settings().evaluationDate().addObserver(this);
-        IndexManager.getInstance().notifier(name()).addObserver(this);
     }
 
     /**
@@ -132,7 +127,6 @@ public abstract class InterestRateIndex extends Index implements Observer {
      */
     protected abstract double forecastFixing(Date fixingDate);
 
-    public abstract Handle<YieldTermStructure> termStructure();
 
     /**
      * 返回到期日
@@ -199,11 +193,5 @@ public abstract class InterestRateIndex extends Index implements Observer {
         return fixingCalendar().advance(fixingDate, fixingDays, TimeUnit.Days);
     } //TODO: 缺少工作日调整？
 
-    // implements Observer
-
-    @Override
-    public void update() {
-        notifyObservers();
-    }
 
 }

@@ -4,13 +4,11 @@ import yjm.value.daycounters.DayCounter;
 import yjm.value.math.interpolations.Extrapolator;
 import yjm.value.time.Calendar;
 import yjm.value.time.Date;
-import yjm.value.util.Observable;
-import yjm.value.util.Observer;
 
 /**
  * 期限结构接口
  */
-public abstract interface TermStructure extends Extrapolator, Observer, Observable {
+public abstract interface TermStructure extends Extrapolator {
 
     /**
      * 最大日期

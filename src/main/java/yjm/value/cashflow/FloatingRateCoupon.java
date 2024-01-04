@@ -4,18 +4,14 @@ import yjm.value.QL;
 import yjm.value.Settings;
 import yjm.value.daycounters.DayCounter;
 import yjm.value.indexes.InterestRateIndex;
-import yjm.value.quotes.Handle;
 import yjm.value.termstructures.YieldTermStructure;
 import yjm.value.time.BusinessDayConvention;
 import yjm.value.time.Date;
 import yjm.value.time.Period;
 import yjm.value.time.TimeUnit;
-import yjm.value.util.Observer;
-import yjm.value.util.PolymorphicVisitor;
-import yjm.value.util.Visitor;
 
 
-public class FloatingRateCoupon extends Coupon implements Observer {
+public class FloatingRateCoupon extends Coupon {
 
     protected InterestRateIndex index_;
     protected DayCounter dayCounter_;
@@ -27,7 +23,6 @@ public class FloatingRateCoupon extends Coupon implements Observer {
      * 是否期末定盘
      */
     protected boolean isInArrears_;
-    protected FloatingRateCouponPricer pricer_;
 
     public FloatingRateCoupon(
             final Date paymentDate,
@@ -59,32 +54,13 @@ public class FloatingRateCoupon extends Coupon implements Observer {
 
         // 估值日
         Date evaluationDate = new Settings().evaluationDate();
-        this.index_.addObserver(this);
-        evaluationDate.addObserver(this);
+
     }
 
 
-    /**
-     * 设置Pricer
-     */
-    public void setPricer(final FloatingRateCouponPricer pricer) {
-        if (pricer_ != null) {
-            pricer_.deleteObserver(this);
-        }
-        pricer_ = pricer;
-        if (pricer_ != null) {
-            pricer_.addObserver(this);
-        }
-        update();
-    }
-
-    public FloatingRateCouponPricer pricer() {
-        return pricer_;
-    }
 
     /**
      * 计算浮动利率Coupon金额
-     * <p>
      * 本金 * 利率 * 计息区间的年化时间
      */
     public double amount() {
@@ -107,8 +83,11 @@ public class FloatingRateCoupon extends Coupon implements Observer {
     /**
      * 计算coupon现值
      */
-    public double price(final Handle<YieldTermStructure> yts) {
-        return amount() * yts.currentLink().discount(date());
+
+
+    @Override
+    public double rate() {
+        return 0;
     }
 
     public DayCounter dayCounter() {
@@ -147,12 +126,6 @@ public class FloatingRateCoupon extends Coupon implements Observer {
         return index_.fixing(fixingDate());
     }
 
-    public double rate() {
-        QL.require(pricer_ != null, "未设置Pricer");
-        pricer_.initialize(this);
-        return pricer_.swapletRate();
-    }
-
     /**
      * 调整定盘利率
      */
@@ -172,24 +145,10 @@ public class FloatingRateCoupon extends Coupon implements Observer {
     }
 
     /**
-     *
+     * 凸性调整
      */
     public double convexityAdjustment() {
         return convexityAdjustmentImpl(indexFixing());
     }
 
-    public void update() {
-        notifyObservers();
-    }
-
-    // implements TypeVisitable
-    @Override
-    public void accept(final PolymorphicVisitor pv) {
-        final Visitor<FloatingRateCoupon> v = (pv != null) ? pv.visitor(this.getClass()) : null;
-        if (v != null) {
-            v.visit(this);
-        } else {
-            super.accept(pv);
-        }
-    }
 }

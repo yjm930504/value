@@ -2,8 +2,7 @@ package yjm.value.cashflow;
 
 import yjm.value.QL;
 import yjm.value.time.Date;
-import yjm.value.util.PolymorphicVisitor;
-import yjm.value.util.Visitor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,14 +37,5 @@ public abstract class Dividend extends CashFlow {
         return items;
     }
 
-    @Override
-    public void accept(final PolymorphicVisitor pv) {
-        final Visitor<Dividend> v = (pv!=null) ? pv.visitor(this.getClass()) : null;
-        if (v != null) {
-            v.visit(this);
-        } else {
-            super.accept(pv);
-        }
-    }
 
 }

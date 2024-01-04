@@ -3,7 +3,6 @@ package yjm.value.cashflow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import yjm.value.QL;
-import yjm.value.quotes.Handle;
 import yjm.value.termstructures.YieldTermStructure;
 import yjm.value.time.Date;
 
@@ -76,7 +75,7 @@ public class CashFlows {
      */
     public double npv(
             final Leg cashflows,
-            final Handle<YieldTermStructure> discountCurve,
+            final YieldTermStructure discountCurve,
             final Date settlementDate,
             final Date npvDate) {
         return npv(cashflows, discountCurve, settlementDate, npvDate, 0);
@@ -87,26 +86,22 @@ public class CashFlows {
      */
     public double npv(
             final Leg cashflows,
-            final Handle<YieldTermStructure> discountCurve,
+            final YieldTermStructure discountCurve,
             final Date settlementDate,
             final Date npvDate,
             final int exDividendDays) {
-
         Date date = settlementDate;
         if (date.isNull()) {
-            date = discountCurve.currentLink().referenceDate();
+            date = discountCurve.referenceDate();
         }
-
         double totalNPV = 0.0;
         for (int i = 0; i < cashflows.size(); ++i) {
-            if (!cashflows.get(i).hasOccurred(date.add(exDividendDays))) {
-                totalNPV += cashflows.get(i).amount() * discountCurve.currentLink().discount(cashflows.get(i).date());
-            }
+                totalNPV += cashflows.get(i).amount() * discountCurve.discount(cashflows.get(i).date());
         }
 
         if (npvDate.isNull())
             return totalNPV;
         else
-            return totalNPV / discountCurve.currentLink().discount(npvDate);
+            return totalNPV / discountCurve.discount(npvDate);
     }
 }

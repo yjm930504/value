@@ -1,8 +1,7 @@
 package yjm.value.indexes;
 
 import yjm.value.time.TimeSeries;
-import yjm.value.util.Observable;
-import yjm.value.util.ObservableValue;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -66,15 +65,6 @@ public class IndexManager {
 	 */
 	public void clearHistories() {
 		data.clear();
-	}
-
-	public Observable notifier(final String name) {
-	    TimeSeries<Double> value = data.get(name);
-		if (value == null){
-			value = new TimeSeries<Double>(Double.class);
-			data.put(name, value);
-		}
-		return new ObservableValue<TimeSeries<Double>>(value);
 	}
 
 }

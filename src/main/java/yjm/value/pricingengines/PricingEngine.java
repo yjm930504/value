@@ -1,8 +1,6 @@
 package yjm.value.pricingengines;
 
-import yjm.value.util.Observable;
-
-public interface PricingEngine extends Observable {
+public interface PricingEngine {
 
     public final static String PRICING_ENGINE_NOT_SET = "Pricing engine not set";
 

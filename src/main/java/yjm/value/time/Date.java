@@ -1,9 +1,6 @@
 package yjm.value.time;
 
 import yjm.value.lang.exceptions.LibraryException;
-import yjm.value.util.DefaultObservable;
-import yjm.value.util.Observable;
-import yjm.value.util.Observer;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -16,7 +13,7 @@ import java.util.Locale;
  * 日期类，serialNumber表示日期到1900年1月1日的天数
  */
 
-public class Date implements Observable,Comparable<Date>, Serializable , Cloneable{
+public class Date implements Comparable<Date>, Serializable , Cloneable{
 
     private static final long serialVersionUID = -7150540867519744332L;
 
@@ -41,7 +38,7 @@ public class Date implements Observable,Comparable<Date>, Serializable , Cloneab
     };
 
     /**
-     * 从1990年开始，每年12月31日的累计天数。例如：yearOffset[2]表示1901年的12月31日距离1900年1月1日有731天
+     * 从1900年开始，每年12月31日的累计天数。例如：yearOffset[2]表示1901年的12月31日距离1900年1月1日有731天
      */
     private static final int[] yearOffset = {
             // 1900-1909
@@ -809,44 +806,6 @@ public class Date implements Observable,Comparable<Date>, Serializable , Cloneab
             }
         }
         return this.serialNumber;
-    }
-
-
-
-    private final Observable delegatedObservable = new DefaultObservable(this);
-    @Override
-    public void addObserver(Observer observer) {
-        delegatedObservable.addObserver(observer);
-    }
-
-    @Override
-    public int countObservers() {
-        return 0;
-    }
-
-    @Override
-    public List<Observer> getObservers() {
-        return null;
-    }
-
-    @Override
-    public void deleteObserver(Observer observer) {
-
-    }
-
-    @Override
-    public void deleteObservers() {
-
-    }
-
-    @Override
-    public void notifyObservers() {
-
-    }
-
-    @Override
-    public void notifyObservers(Object arg) {
-
     }
 
     /**

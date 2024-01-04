@@ -132,7 +132,6 @@ public class Settings {
 
         private Date assign(final Date date) {
             super.assign(date.serialNumber());
-            super.notifyObservers();
             return this;
         }
 

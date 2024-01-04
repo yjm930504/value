@@ -9,9 +9,7 @@ import yjm.value.math.interpolations.DefaultExtrapolator;
 import yjm.value.time.Calendar;
 import yjm.value.time.Date;
 import yjm.value.time.TimeUnit;
-import yjm.value.util.DefaultObservable;
-import yjm.value.util.Observable;
-import yjm.value.util.Observer;
+
 import java.util.List;
 
 
@@ -117,7 +115,6 @@ public abstract class AbstractTermStructure implements TermStructure {
 
         // observes date changes
         final Date today = new Settings().evaluationDate();
-        today.addObserver(this);
 
         this.referenceDate = calendar.advance(today, settlementDays, TimeUnit.Days);
     }
@@ -190,51 +187,6 @@ public abstract class AbstractTermStructure implements TermStructure {
     @Override
     public void enableExtrapolation() {
         delegatedExtrapolator.enableExtrapolation();
-    }
-
-    @Override
-    public void update() {
-        if (moving) {
-            updated = false;
-        }
-        notifyObservers();
-    }
-
-    private final Observable delegatedObservable = new DefaultObservable(this);
-
-    @Override
-    public void addObserver(final Observer observer) {
-        delegatedObservable.addObserver(observer);
-    }
-
-    @Override
-    public int countObservers() {
-        return delegatedObservable.countObservers();
-    }
-
-    @Override
-    public void deleteObserver(final Observer observer) {
-        delegatedObservable.deleteObserver(observer);
-    }
-
-    @Override
-    public void notifyObservers() {
-        delegatedObservable.notifyObservers();
-    }
-
-    @Override
-    public void notifyObservers(final Object arg) {
-        delegatedObservable.notifyObservers(arg);
-    }
-
-    @Override
-    public void deleteObservers() {
-        delegatedObservable.deleteObservers();
-    }
-
-    @Override
-    public List<Observer> getObservers() {
-        return delegatedObservable.getObservers();
     }
 
 }
